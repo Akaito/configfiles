@@ -1,0 +1,55 @@
+execute pathogen#infect()
+filetype plugin indent on
+
+set backspace=indent,start,eol
+
+set number
+"set cursorline
+
+" jk as escape key
+inoremap jk <esc>
+
+" Visual autocomplete for command menu
+set wildmenu
+" Ignore compiled files
+set wildignore=*.o,*~,*.pyc
+
+" Ignore case when searching, smartly
+set ignorecase
+set smartcase
+
+set hlsearch
+set incsearch
+
+" Don't redraw while executing macros
+set lazyredraw
+
+" Show matching brackets when text indicator is over them
+set showmatch
+" How many tenths of a second to blink when matching brackets
+set mat=2
+
+"""
+""" Colors and Fonts
+"""
+
+"syntax on
+syntax enable
+
+colorscheme badwolf
+set background=dark
+
+"""
+""" Tabs
+"""
+
+set noexpandtab
+set smarttab " tab inserts tabs for indents, space otherwise
+set shiftwidth=4
+set tabstop=4
+set softtabstop=4
+
+" Auto and smart indent
+set ai
+set si
+
