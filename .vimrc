@@ -50,6 +50,6 @@ set tabstop=4
 set softtabstop=4
 
 " Auto and smart indent
-set ai
-set si
+set autoindent
+set smartindent
 
