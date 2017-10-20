@@ -4,6 +4,7 @@ filetype plugin indent on
 set backspace=indent,start,eol
 
 set number
+set relativenumber
 "set cursorline
 
 " jk as escape key
@@ -43,13 +44,14 @@ set background=dark
 """ Tabs
 """
 
-set noexpandtab
-set smarttab " tab inserts tabs for indents, space otherwise
+set expandtab
+"set smarttab " tab inserts tabs for indents, space otherwise
 set shiftwidth=4
 set tabstop=4
 set softtabstop=4
 
 " Auto and smart indent
 set autoindent
+set copyindent
 set smartindent
 
