@@ -70,6 +70,7 @@ apt-install:
 		syncthing keepass2 \
 		docker \
 		clang \
+		cmake \
 		libsdl2-dev libsdl2-gfx-dev libsdl2-ttf-dev \
 		libsdl2-doc \
 		byzanz \
