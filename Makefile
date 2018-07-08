@@ -1,3 +1,9 @@
+# Linux
+uname_s := $(shell uname -s)
+# i386, x86_64, armv71
+uname_m := $(shell uname -m)
+
+
 .PHONY: all \
 	configs bash git vim \
 	keys \
@@ -8,7 +14,7 @@
 all: configs keys apt pip
 
 test:
-	echo foo
+	$(info uname_m=$(uname_m))
 
 
 #=== configs ===
@@ -54,13 +60,19 @@ apt-install:
 		docker \
 		clang \
 		libsdl2-dev libsdl2-gfx-dev libsdl2-ttf-dev \
-		libsdl2-doc
+		libsdl2-doc \
+		byzanz \
+		ncmpcpp
 
 apt-beyondcompare:
+ifeq ($(uname_m),x86_64)
 	wget http://www.scootersoftware.com/bcompare-4.2.5.23088_amd64.deb
 	sudo apt-get install gdebi-core
 	sudo gdebi bcompare-4.2.5.23088_amd64.deb
 	rm bcompare-4.2.5.23088_amd64.deb
+else
+	@echo WARN: BeyondCompare install not supported on this architecture.
+endif
 
 
 #=== installations : pip ===
