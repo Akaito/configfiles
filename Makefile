@@ -13,6 +13,7 @@ uname_m := $(shell uname -m)
 
 all: configs keys apt pip
 	if [ ! -f ~/.TODO.md ]; then cp TODO-output.md ~/TODO.md ; fi
+	cat ~/.TODO.md
 
 test:
 	$(info uname_m=$(uname_m))
