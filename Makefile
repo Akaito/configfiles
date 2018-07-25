@@ -15,7 +15,7 @@ uname_o := $(shell uname -o)
 
 all: configs keys apt pip
 	if [ ! -f ~/.TODO.md ]; then cp TODO-output.md ~/TODO.md ; fi
-	cat ~/.TODO.md
+	cat ~/TODO.md
 
 test:
 	$(info uname_m=$(uname_m))
@@ -44,11 +44,13 @@ endif
 
 
 ncmpcpp:
+ifneq ($(uname_o),Android)
 	if [ ! -d ~/.ncmpcpp ]; then mkdir ~/.ncmpcpp; fi
 	rm -f ~/.ncmpcpp/bindings
 	ln ncmpcpp/bindings ~/.ncmpcpp/bindings
 	# Only copy config file if doesn't exist, since private data will be entered in the local-only copy.
 	if [ ! -f ~/.ncmpcpp/config ]; then cp ncmpcpp/config ~/.ncmpcpp/config; fi
+endif
 
 
 vim:
@@ -80,6 +82,7 @@ key-ssh: ~/.ssh/id_rsa
 apt: apt-install apt-beyondcompare apt-syncthing
 
 apt-install:
+ifneq ($(uname_o),Android)
 	sudo apt-get update
 	sudo apt-get install \
 		vim git lynx \
@@ -91,6 +94,7 @@ apt-install:
 		libsdl2-doc \
 		byzanz \
 		ncmpcpp
+endif
 
 apt-beyondcompare:
 ifeq ($(uname_m),x86_64)
@@ -106,8 +110,10 @@ endif
 # https://docs.syncthing.net/users/autostart.html?highlight=daemon#linux
 # recall default Web GUI address of 127.0.0.1:8384
 apt-syncthing:
+ifneq ($(uname_o),Android)
 	systemctl --user enable syncthing.service
 	systemctl --user start syncthing.service
+endif
 
 
 #=== installations : pip ===
@@ -115,10 +121,14 @@ apt-syncthing:
 pip: pip2-install pip3-install
 
 pip2-install:
+ifneq ($(uname_o),Android)
 	sudo pip install --upgrade pip
+endif
 
 pip3-install:
+ifneq ($(uname_o),Android)
 	sudo pip3 install --upgrade pip
 	sudo pip3 install awscli
 	aws configure
+endif
 
