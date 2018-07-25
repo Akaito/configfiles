@@ -2,6 +2,8 @@
 uname_s := $(shell uname -s)
 # i386, x86_64, armv71
 uname_m := $(shell uname -m)
+# Android
+uname_o := $(shell uname -o)
 
 
 .PHONY: all \
@@ -24,13 +26,21 @@ test:
 configs: bash git ncmpcpp vim
 
 bash:
+ifeq ($(uname_o),Android)
+	cp bash/bashrc-termux ~/.bashrc
+else
 	rm -f ~/.bashrc
 	ln bash/bashrc-debian ~/.bashrc
+endif
 
 
 git:
+ifeq ($(uname_o),Android)
+	cp git/gitconfig ~/.gitconfig
+else
 	rm -f ~/.gitconfig
 	ln git/gitconfig ~/.gitconfig
+endif
 
 
 ncmpcpp:
@@ -42,10 +52,16 @@ ncmpcpp:
 
 
 vim:
+ifeq ($(uname_o),Android)
+	rm -rf ~/.vim
+	cp -r vim ~/.vim
+	cp vim/vimrc ~/.vimrc
+else
 	rm -rf ~/.vim
 	rm -f ~/.vimrc
 	ln -s vim ~/.vim
 	ln vim/vimrc ~/.vimrc
+endif
 
 
 #=== keys ===
