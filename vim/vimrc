@@ -1,4 +1,4 @@
-"execute pathogen#infect()
+execute pathogen#infect()
 filetype plugin indent on
 
 set backspace=indent,start,eol

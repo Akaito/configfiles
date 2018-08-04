@@ -5,6 +5,11 @@ uname_m := $(shell uname -m)
 # Android
 uname_o := $(shell uname -o)
 
+# https://stackoverflow.com/questions/18136918/how-to-get-current-relative-directory-of-your-makefile
+# https://www.gnu.org/software/make/manual/html_node/File-Name-Functions.html
+mkfile_path := $(abspath $(lastword $(MAKEFILE_LIST)))
+mkfile_dir  := $(dir $(abspath $(lastword $(MAKEFILE_LIST))))
+
 
 .PHONY: all \
 	configs bash git ncmpcpp vim \
@@ -18,7 +23,11 @@ all: configs keys apt pip
 	cat ~/TODO.md
 
 test:
-	$(info uname_m=$(uname_m))
+	@#echo $(mkfile_dir)
+	@#$(info uname_m=$(uname_m))
+	echo $(dir $(abspath $(lastword $(MAKEFILE_LIST))))
+	echo $(mkfile_path)
+	echo $(mkfile_dir)
 
 
 #=== configs ===
@@ -61,8 +70,8 @@ ifeq ($(uname_o),Android)
 else
 	rm -rf ~/.vim
 	rm -f ~/.vimrc
-	ln -s vim ~/.vim
-	ln vim/vimrc ~/.vimrc
+	ln -sf $(mkfile_dir)/vim ~/.vim
+	ln -f $(mkfile_dir)/vim/vimrc ~/.vimrc
 endif
 
 
