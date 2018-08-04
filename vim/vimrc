@@ -71,3 +71,21 @@ let g:syntastic_auto_loc_list            = 1
 let g:syntastic_check_on_open            = 1
 let g:syntastic_check_on_wq              = 0
 
+
+"""
+""" vim-gitgutter
+""" https://github.com/airblade/vim-gitgutter
+"""
+
+" Hotkeys and commands
+" You can jump between hunks with [c and ]c.
+" Both of those take a preceding count.
+" You can preview, stage, and undo hunks with <leader>hp, <leader>hs, and
+" <leader>hu respectively.
+" You cannot unstage a staged hunk.
+"
+" :GitGutterToggle
+
+" Cut update time down from default 4000 (4 seconds) to 100 ms.
+set updatetime=100
+
