@@ -15,7 +15,8 @@ mkfile_dir  := $(dir $(abspath $(lastword $(MAKEFILE_LIST))))
 	configs bash git ncmpcpp vim \
 	keys \
 	apt apt-install apt-beyondcompare apt-syncthing \
-	pip pip3-install
+	pip pip3-install \
+	samba ssh sshd
 
 
 all: configs keys apt pip
@@ -139,5 +140,43 @@ ifneq ($(uname_o),Android)
 	sudo pip3 install --upgrade pip
 	sudo pip3 install awscli
 	aws configure
+endif
+
+
+#=== daemon config : samba ===
+
+samba:
+ifneq ($(uname_o),Android)
+	@# if regular file (not a symlink; that'd be -L), make a backup first
+	if [ -f /etc/samba/smb.conf && ! -L /etc/samba/smb.conf ] ; then sudo mv /etc/samba/smb.conf{,-makebak}; fi
+	if [ -f /etc/samba/smbusers && ! -L /etc/samba/smbusers ] ; then sudo mv /etc/samba/smbusers{,-makebak}; fi
+	sudo ln -sf $(realpath samba/smb.conf) /etc/samba/smb.conf
+	sudo ln -sf $(realpath samba/smbusers) /etc/samba/smbusers
+	# setup smb user(s)
+	sudo smbpasswd -a chris
+endif
+
+
+#=== (daemon) config : ssh / sshd ===
+
+ssh:
+ifneq ($(uname_o),Android)
+	@# if regular file (not a symlink; that'd be -L), make a backup first
+	if [ -f /etc/samba/smb.conf && ! -L /etc/samba/smb.conf ] ; then sudo mv /etc/samba/smb.conf{,-makebak}; fi
+	if [ -f /etc/samba/smbusers && ! -L /etc/samba/smbusers ] ; then sudo mv /etc/samba/smbusers{,-makebak}; fi
+	sudo ln -sf $(realpath samba/smb.conf) /etc/samba/smb.conf
+	sudo ln -sf $(realpath samba/smbusers) /etc/samba/smbusers
+	# setup smb user(s)
+	sudo smbpasswd -a chris
+endif
+
+sshd:
+ifneq ($(uname_o),Android)
+	@# if regular file (not a symlink; that'd be -L), make a backup first
+	if [ -f /etc/ssh/sshd_config && ! -L /etc/ssh/sshd_config ] ; then sudo mv /etc/ssh/sshd_config{,-makebak}; fi
+	sudo ln -sf $(realpath ssh/sshd_config) /etc/ssh/sshd_config
+	@# per-user
+	if [ -f ~/.ssh/authorized_keys && ! -L /etc/ssh/sshd_config ] ; then sudo mv ~/.ssh/authorized_keys{,-makebak}; fi
+	sudo ln -sf $(realpath ssh/authorized_keys) ~/.ssh/authorized_keys
 endif
 
