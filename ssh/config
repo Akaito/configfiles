@@ -1,3 +1,7 @@
+Host *
+    ForwardAgent yes
+    ForwardX11 yes
+
 Host rekt
     HostName home.codesaru.com
     Port 13592
