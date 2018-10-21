@@ -1,34 +1,35 @@
-Host *
-    ForwardAgent yes
-    ForwardX11   yes
-
-Host github.com
-    ForwardAgent no
-    ForwardX11   no
-
-
 Host rekt
     HostName home.codesaru.com
     Port     13592
     User     chris
+    ForwardAgent yes
+    ForwardX11   yes
 
 Host rekt.lan
     HostName 192.168.1.2
     User     chris
+    ForwardAgent yes
+    ForwardX11   yes
 
 
 Host skatolo
     HostName home.codesaru.com
     Port     29531
     User     chris
+    ForwardAgent yes
+    ForwardX11   yes
 
 Host skatolo.lan
     HostName 192.168.1.12
     User     chris
+    ForwardAgent yes
+    ForwardX11   yes
 
 
 Host tiamat.lan
     HostName 192.168.1.11
     Port     8022
     User     chris
+    ForwardAgent yes
+    ForwardX11   yes
 
