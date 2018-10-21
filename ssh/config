@@ -7,6 +7,7 @@ Host rekt.lan
     HostName 192.168.1.2
     User chris
 
+
 Host skatolo
     HostName home.codesaru.com
     Port 29531
@@ -14,5 +15,11 @@ Host skatolo
 
 Host skatolo.lan
     HostName 192.168.1.12
+    User chris
+
+
+Host tiamat.lan
+    HostName 192.168.1.11
+    Port 8022
     User chris
 
