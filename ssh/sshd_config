@@ -72,7 +72,13 @@ PermitEmptyPasswords no
 # Change to no to disable s/key passwords
 # Change to yes to enable challenge-response passwords (beware issues
 # with some PAM modules and threads)
-ChallengeResponseAuthentication no
+#ChallengeResponseAuthentication no
+# Now with MFA
+# Be sure to install libpam-google-authenticator and ntp first.
+# After, login to the normal user on the physical machine and run:
+# $ google-authenticator -l 'your-username@Application Server'
+ChallengeResponseAuthentication yes
+AuthenticationMethods publickey,keyboard-interactive
 
 # Kerberos options
 #KerberosAuthentication no

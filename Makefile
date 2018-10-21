@@ -169,6 +169,8 @@ ifneq ($(uname_o),Android)
 	@# if regular file (not a symlink; that'd be -L), make a backup first
 	if [ -f /etc/ssh/sshd_config && ! -L /etc/ssh/sshd_config ] ; then sudo mv /etc/ssh/sshd_config{,-makebak}; fi
 	sudo ln -sf $(realpath ssh/sshd_config) /etc/ssh/sshd_config
+	if [ -f /etc/pam.d/sshd && ! -L /etc/pam.d/sshd ] ; then sudo mv /etc/pam.d/sshd{,-makebak}; fi
+	sudo ln -sf $(realpath ssh/pam.d/sshd) /etc/pam.d/sshd
 	@# per-user
 	if [ -f ~/.ssh/authorized_keys && ! -L /etc/ssh/sshd_config ] ; then sudo mv ~/.ssh/authorized_keys{,-makebak}; fi
 	sudo ln -sf $(realpath ssh/authorized_keys) ~/.ssh/authorized_keys
