@@ -160,15 +160,9 @@ endif
 #=== (daemon) config : ssh / sshd ===
 
 ssh:
-ifneq ($(uname_o),Android)
 	@# if regular file (not a symlink; that'd be -L), make a backup first
-	if [ -f /etc/samba/smb.conf && ! -L /etc/samba/smb.conf ] ; then sudo mv /etc/samba/smb.conf{,-makebak}; fi
-	if [ -f /etc/samba/smbusers && ! -L /etc/samba/smbusers ] ; then sudo mv /etc/samba/smbusers{,-makebak}; fi
-	sudo ln -sf $(realpath samba/smb.conf) /etc/samba/smb.conf
-	sudo ln -sf $(realpath samba/smbusers) /etc/samba/smbusers
-	# setup smb user(s)
-	sudo smbpasswd -a chris
-endif
+	if [ -f ~/.ssh/config && ! -L ~/.ssh/config ] ; then mv ~/.ssh/config{,-makebak}; fi
+	ln -sf $(realpath ssh/config) ~/.ssh/config
 
 sshd:
 ifneq ($(uname_o),Android)
