@@ -33,7 +33,7 @@ test:
 
 #=== configs ===
 
-configs: bash git ncmpcpp vim
+configs: bash git ncmpcpp ssh vim
 
 bash:
 ifeq ($(uname_o),Android)
@@ -61,6 +61,12 @@ ifneq ($(uname_o),Android)
 	# Only copy config file if doesn't exist, since private data will be entered in the local-only copy.
 	if [ ! -f ~/.ncmpcpp/config ]; then cp ncmpcpp/config ~/.ncmpcpp/config; fi
 endif
+
+
+ssh:
+	@# if regular file (not a symlink; that'd be -L), make a backup first
+	if [ -f ~/.ssh/config && ! -L ~/.ssh/config ] ; then mv ~/.ssh/config{,-makebak}; fi
+	ln -sf $(realpath ssh/config) ~/.ssh/config
 
 
 vim:
@@ -143,7 +149,7 @@ ifneq ($(uname_o),Android)
 endif
 
 
-#=== daemon config : samba ===
+#=== daemon config : sambad ===
 
 samba:
 ifneq ($(uname_o),Android)
@@ -157,12 +163,7 @@ ifneq ($(uname_o),Android)
 endif
 
 
-#=== (daemon) config : ssh / sshd ===
-
-ssh:
-	@# if regular file (not a symlink; that'd be -L), make a backup first
-	if [ -f ~/.ssh/config && ! -L ~/.ssh/config ] ; then mv ~/.ssh/config{,-makebak}; fi
-	ln -sf $(realpath ssh/config) ~/.ssh/config
+#=== daemon config : sshd ===
 
 sshd:
 ifneq ($(uname_o),Android)
