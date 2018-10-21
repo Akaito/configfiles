@@ -2,7 +2,7 @@ Host *
     ForwardAgent yes
     ForwardX11   yes
 
-Host *github*
+Host github.com
     ForwardAgent no
     ForwardX11   no
 
