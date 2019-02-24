@@ -102,7 +102,7 @@ ifneq ($(uname_o),Android)
 	sudo apt-get update
 	sudo apt-get install \
 		vim git lynx \
-		screen tmux \
+		curl wget screen tmux \
 		syncthing keepass2 \
 		docker \
 		clang \
