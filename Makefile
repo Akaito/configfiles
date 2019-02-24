@@ -102,6 +102,7 @@ ifneq ($(uname_o),Android)
 	sudo apt-get update
 	sudo apt-get install \
 		vim git lynx \
+		screen tmux \
 		syncthing keepass2 \
 		docker \
 		clang \
@@ -114,10 +115,10 @@ endif
 
 apt-beyondcompare:
 ifeq ($(uname_m),x86_64)
-	wget http://www.scootersoftware.com/bcompare-4.2.5.23088_amd64.deb
+	wget http://www.scootersoftware.com/bcompare-4.2.9.23626_amd64.deb
 	sudo apt-get install gdebi-core
-	sudo gdebi bcompare-4.2.5.23088_amd64.deb
-	rm bcompare-4.2.5.23088_amd64.deb
+	sudo gdebi bcompare-4.2.9.23626_amd64.deb
+	rm bcompare-4.2.9.23626_amd64.deb
 else
 	@echo WARN: BeyondCompare install not supported on this architecture.
 endif
@@ -143,6 +144,7 @@ endif
 
 pip3-install:
 ifneq ($(uname_o),Android)
+	sudo apt install python3-pip
 	sudo pip3 install --upgrade pip
 	sudo pip3 install awscli
 	aws configure
