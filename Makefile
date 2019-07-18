@@ -184,7 +184,7 @@ ifneq ($(uname_o),Android)
 	sudo ln -sf $(realpath samba/smb.conf) /etc/samba/smb.conf
 	sudo ln -sf $(realpath samba/smbusers) /etc/samba/smbusers
 	# setup smb user(s)
-	sudo smbpasswd -a chris
+	sudo smbpasswd -a $(USER)
 endif
 
 
