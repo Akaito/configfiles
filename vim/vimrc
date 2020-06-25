@@ -1,6 +1,26 @@
-source $VIMRUNTIME/vimrc_example.vim
+"source $VIMRUNTIME/vimrc_example.vim
+"source ./vim81-defaults.vim
 
-execute pathogen#infect()
+
+"
+" Plug plugin section
+" From https://github.com/junegunn/vim-plug
+" Run `:PlugInstall` inside Vim to install these on any new system.
+" PlugUpdate: to install or update.
+" PlugClean: Remove unlisted plugins.
+" PlugUpgrade: Update Plug.
+"
+"
+call plug#begin('~/.vim/plugged')
+"Plug 'https://github.com/vim-airline/vim-airline.git'
+"Plug 'https://github.com/dawikur/base16-vim-airline-themes.git', { 'do': './after.sh' }
+call plug#end()
+
+
+"
+" Normal vim settings
+"
+
 filetype plugin indent on
 
 set backspace=indent,start,eol
@@ -13,9 +33,9 @@ set relativenumber
 inoremap jk <esc>
 
 " Visual autocomplete for command menu
-set wildmenu
+"set wildmenu
 " Ignore compiled files
-set wildignore=*.o,*~,*.pyc
+"set wildignore=*.o,*~,*.pyc
 
 " Ignore case when searching, smartly
 set ignorecase
@@ -23,6 +43,14 @@ set smartcase
 
 set hlsearch
 set incsearch
+
+" Show as much of the last line of text as possible ('@@@' represents
+" truncation), and show unprintable chars as hex <xx> instead of ^C and ~C.
+set display=lastline,uhex
+
+" Allow putting the cursor on the very first and last lines and columns.
+set scrolloff=0
+set sidescrolloff=0
 
 " Don't redraw while executing macros
 set lazyredraw
@@ -58,8 +86,30 @@ set autoindent
 set copyindent
 set smartindent
 
-" Don't auto-continue comments quite so much.
-set formatoptions-=ro
+" Don't auto-continue comments quite so much ('ro' not present).
+" :h 'formatoptions'
+" :h fo-table
+set formatoptions=crqnlj
+
+" Do not recognize octal numbers for Ctrl-A and Ctrl-X, most users find it
+" confusing.
+set nrformats-=octal
+
+" For Win32 GUI: remove 't' flag from 'guioptions': no tearoff menu entries.
+if has('win32')
+  set guioptions-=t
+endif
+
+" Switch syntax highlighting on when the terminal has colors or when using the
+" GUI (which always has colors).
+if &t_Co > 2 || has("gui_running")
+  " Revert with ":syntax off".
+  syntax on
+
+  " I like highlighting strings inside C comments.
+  " Revert with ":unlet c_comment_strings".
+  let c_comment_strings=1
+endif
 
 
 """
@@ -68,18 +118,18 @@ set formatoptions-=ro
 """ :help syntastic
 """
 
-set statusline+=%#warningmsg#
-set statusline+=%{SyntasticStatuslineFlag()}
-set statusline+=%*
+"set statusline+=%#warningmsg#
+"set statusline+=%{SyntasticStatuslineFlag()}
+"set statusline+=%*
 
-let g:syntastic_always_populate_loc_list = 1
-let g:syntastic_auto_loc_list            = 1
-let g:syntastic_check_on_open            = 1
-let g:syntastic_check_on_wq              = 0
+"let g:syntastic_always_populate_loc_list = 1
+"let g:syntastic_auto_loc_list            = 1
+"let g:syntastic_check_on_open            = 1
+"let g:syntastic_check_on_wq              = 0
 
 " jump to next/previous errors (may not be Syntastic-specific?)
-nnoremap <leader>n :lnext<CR>
-nnoremap <leader>p :lprevious<CR>
+"nnoremap <leader>n :lnext<CR>
+"nnoremap <leader>p :lprevious<CR>
 
 
 """
@@ -97,7 +147,7 @@ nnoremap <leader>p :lprevious<CR>
 " :GitGutterToggle
 
 " Cut update time down from default 4000 (4 seconds) to 100 ms.
-set updatetime=100
+"set updatetime=100
 
 
 """
