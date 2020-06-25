@@ -19,3 +19,5 @@
     ci = commit
     co = checkout
     st = status -s
+    subup = submodule update --init --recursive
+
