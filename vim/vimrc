@@ -1,3 +1,5 @@
+source $VIMRUNTIME/vimrc_example.vim
+
 execute pathogen#infect()
 filetype plugin indent on
 
@@ -96,4 +98,14 @@ nnoremap <leader>p :lprevious<CR>
 
 " Cut update time down from default 4000 (4 seconds) to 100 ms.
 set updatetime=100
+
+
+"""
+""" Some stuff from https://github.com/jonhoo/configs/
+"""
+
+" Keep undo info around in a special dir.  So you can undo after closing and
+" re-opening a file.
+set undodir=~/.vimdid
+set undofile
 
