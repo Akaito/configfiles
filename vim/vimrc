@@ -38,6 +38,7 @@ set mat=2
 syntax enable
 
 "colorscheme badwolf
+"colorscheme base16-monokai
 set background=dark
 
 """
