@@ -42,6 +42,7 @@ else
 	rm -f ~/.bashrc
 	ln bash/bashrc-debian ~/.bashrc
 endif
+	. ~/.bashrc
 
 
 git:
