@@ -12,7 +12,7 @@ mkfile_dir  := $(dir $(abspath $(lastword $(MAKEFILE_LIST))))
 
 
 .PHONY: all \
-	configs bash git ncmpcpp tmux vim \
+	configs bash git ncmpcpp termux tmux vim \
 	keys \
 	apt apt-install apt-beyondcompare apt-syncthing \
 	pip pip3-install \
@@ -33,7 +33,7 @@ test:
 
 #=== configs ===
 
-configs: bash git ncmpcpp ssh tmux vim
+configs: bash git ncmpcpp ssh termux tmux vim
 
 bash:
 ifeq ($(uname_o),Android)
@@ -68,6 +68,12 @@ ssh:
 	@# if regular file (not a symlink; that'd be -L), make a backup first
 	if [ -f ~/.ssh/config && ! -L ~/.ssh/config ] ; then mv ~/.ssh/config{,-makebak}; fi
 	ln -sf $(realpath ssh/config) ~/.ssh/config
+
+
+termux:
+ifeq ($(uname_o),Android)
+	cp termux/base16-monokai.properties ~/.termux/colors.properties
+endif
 
 
 tmux:
