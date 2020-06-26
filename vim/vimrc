@@ -12,9 +12,6 @@
 "
 call plug#begin('~/.vim/plugged')
 
-"Plug 'https://github.com/vim-airline/vim-airline.git'
-"Plug 'https://github.com/dawikur/base16-vim-airline-themes.git', { 'do': './after.sh' }
-
 " :ALEDetail to get the full pane.
 Plug 'https://github.com/w0rp/ale'
 
@@ -30,14 +27,39 @@ Plug 'https://github.com/editorconfig/editorconfig-vim'
 
 Plug 'https://github.com/airblade/vim-gitgutter'
 
+" Lightline (lighter-weight airline alternative).
+Plug 'https://github.com/itchyny/lightline.vim.git'
+Plug 'https://github.com/mike-hearn/base16-vim-lightline.git'
+
 " :NERDTreeToggle
 Plug 'https://github.com/scrooloose/nerdtree'
+
+" Sensible vim is a good source, but maybe not using it directly.
+"Plug 'https://github.com/tpope/vim-sensible'
 
 call plug#end()
 
 " Follow-up plugin setup.
 " fzf
 "nmap <Leader>f :Files<CR>
+
+" lightline
+" See config examples at https://github.com/itchyny/lightline.vim
+let g:lightline = { 'colorscheme': 'base16_monokai' }  " or base16_mexico_light
+let g:lightline.active = {
+        \ 'left': [ ['mode', 'paste' ],
+        \           [ 'readonly', 'filename', 'modified' ] ],
+        \ 'right': [ [ 'lineinfo' ],
+        \            [ 'charvaluehex' ],
+        \            [ 'fileformat', 'fileencoding' ] ]
+        \ }
+let g:lightline.component = {
+        \ 'charvaluehex': '0x%02.2B'
+        \ }
+"let g:lightline.active = { 'left': [ [ 'mode', 'paste' ],
+"                                   \ [ 'gitbranch', 'readonly', 'filename', 'modified' ] ] }
+"let g:lightline.component_function = { 'gitbranch': 'fugitive#head' }
+"let g:lightline.tabline = { 'left': [ ['tabs'] ], 'right': [ ['close'] ] }
 
 
 "
@@ -51,6 +73,12 @@ set backspace=indent,start,eol
 set number
 set relativenumber
 "set cursorline  # too expensive in some cases
+
+" Always show the status-line.  If using lightline/airline/powerline, this is good.
+set laststatus=2
+" Since we have a status line showing the mode, don't bother doing so in the
+" line below it.
+set noshowmode
 
 " jk as escape key
 inoremap jk <esc>
@@ -94,6 +122,7 @@ set background=dark
 "colorscheme badwolf
 colorscheme base16-monokai
 set termguicolors  " fixes color scheme for bash WSL in Cmder.  To be tested on *nix.
+
 
 """
 """ Tabs
