@@ -215,3 +215,15 @@ endif
 set undodir=~/.vimdid
 set undofile
 
+
+"""
+""" leaders
+"""
+
+" Change leader from backslash to spacebar.
+let g:mapleader = " "
+" toggle file tree with leader-t
+nmap <Leader>t :NERDTreeToggle<CR>
+" switch back to previous buffer
+nmap <Leader><Leader> <C-^>
+
