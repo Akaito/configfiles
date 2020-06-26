@@ -170,6 +170,13 @@ if &t_Co > 2 || has("gui_running")
   let c_comment_strings=1
 endif
 
+" Fix colors in tmux (thanks Sam).
+if &term =~ '256color'
+    set termguicolors
+    let &t_8f = "\<Esc>[38;2;%lu;%lu;%lum"
+    let &t_8b = "\<Esc>[48;2;%lu;%lu;%lum"
+endif
+
 
 """
 """ Syntastic plugin
