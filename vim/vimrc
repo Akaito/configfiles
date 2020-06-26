@@ -27,9 +27,11 @@ Plug 'https://github.com/editorconfig/editorconfig-vim'
 
 Plug 'https://github.com/airblade/vim-gitgutter'
 
+Plug 'https://github.com/machakann/vim-highlightedyank'
+
 " Lightline (lighter-weight airline alternative).
-Plug 'https://github.com/itchyny/lightline.vim.git'
-Plug 'https://github.com/mike-hearn/base16-vim-lightline.git'
+Plug 'https://github.com/itchyny/lightline.vim'
+Plug 'https://github.com/mike-hearn/base16-vim-lightline'
 
 " :NERDTreeToggle
 Plug 'https://github.com/scrooloose/nerdtree'
