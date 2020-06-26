@@ -46,6 +46,7 @@ call plug#end()
 " lightline
 " See config examples at https://github.com/itchyny/lightline.vim
 let g:lightline = { 'colorscheme': 'base16_monokai' }  " or base16_mexico_light
+" Could also `ga` for the char value under the cursor, instead of charvaluehex.
 let g:lightline.active = {
         \ 'left': [ ['mode', 'paste' ],
         \           [ 'readonly', 'filename', 'modified' ] ],
@@ -56,9 +57,6 @@ let g:lightline.active = {
 let g:lightline.component = {
         \ 'charvaluehex': '0x%02.2B'
         \ }
-"let g:lightline.active = { 'left': [ [ 'mode', 'paste' ],
-"                                   \ [ 'gitbranch', 'readonly', 'filename', 'modified' ] ] }
-"let g:lightline.component_function = { 'gitbranch': 'fugitive#head' }
 "let g:lightline.tabline = { 'left': [ ['tabs'] ], 'right': [ ['close'] ] }
 
 
