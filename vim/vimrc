@@ -10,20 +10,29 @@
 " PlugClean: Remove unlisted plugins.
 " PlugUpgrade: Update Plug.
 "
-"
 call plug#begin('~/.vim/plugged')
+
 "Plug 'https://github.com/vim-airline/vim-airline.git'
 "Plug 'https://github.com/dawikur/base16-vim-airline-themes.git', { 'do': './after.sh' }
+
 " :ALEDetail to get the full pane.
 Plug 'https://github.com/w0rp/ale'
+
+" Color schemes aplenty.
+Plug 'https://github.com/chriskempson/base16-vim'
+
 " Put a .editorconfig in a project to get per-project Vim settings.
 Plug 'https://github.com/editorconfig/editorconfig-vim'
+
 " fzf fuzzy finder
 " Use with :Files command. `map ; :Files<CR>` is a recommended mapping.
-"Plug 'https://github.com/junegunn/fzf.vim'
+"Plug 'https://github.com/junegunn/fzf.vim', { 'dir': '~/.fzf', 'do': './install --all' }
+
 Plug 'https://github.com/airblade/vim-gitgutter'
+
 " :NERDTreeToggle
 Plug 'https://github.com/scrooloose/nerdtree'
+
 call plug#end()
 
 " Follow-up plugin setup.
@@ -82,7 +91,7 @@ set mat=2
 syntax enable
 
 set background=dark
-colorscheme badwolf
+"colorscheme badwolf
 "colorscheme base16-monokai
 
 """
