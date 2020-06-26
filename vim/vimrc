@@ -236,6 +236,7 @@ nnoremap <Leader>/ :nohlsearch<CR>
 function! FzfGitRootOrHere()
     silent let l:path = system('[[ $(git rev-parse --show-toplevel 2>/dev/null) && $? -eq 0 ]] && echo $(git rev-parse --show-toplevel) || pwd')
     let l:path = fnamemodify(l:path, ':~:.')[:-2]
+    " TODO: fzf#wrap isn't getting us split hotkeys for some reason.
     "let g:fzf_action = {
     "    \ 'ctrl-t': 'tab split',
     "    \ 'ctrl-x': 'split',
