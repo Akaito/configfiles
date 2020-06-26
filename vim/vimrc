@@ -23,11 +23,8 @@ Plug 'https://github.com/editorconfig/editorconfig-vim'
 
 " fzf fuzzy finder
 " Use with :Files command. `map ; :Files<CR>` is a recommended mapping.
-"Plug 'https://github.com/airblade/vim-rooter'
-"Plug 'https://github.com/junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
 Plug 'https://github.com/junegunn/fzf', { 'do': { -> fzf#install() } }
 Plug '~/.fzf'
-"Plug 'junegunn/fzf.vim'
 
 Plug 'https://github.com/airblade/vim-gitgutter'
 
@@ -239,7 +236,7 @@ nnoremap <Leader>/ :nohlsearch<CR>
 function! GitRootOrHere()
     silent let l:path = system('[[ $(git rev-parse --show-toplevel 2>/dev/null) && $? -eq 0 ]] && echo $(git rev-parse --show-toplevel) || pwd')
     let l:path = fnamemodify(l:path, ':~:.')[:-2]
-    call fzf#run({'sink': 'e', 'dir': l:path, 'window': 'belowright 30new'})
+    call fzf#run(fzf#wrap({'dir': l:path, 'sink': 'e'}))
     "return l:path
 endfunction
 nnoremap <Leader>f :call GitRootOrHere()<CR>
