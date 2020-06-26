@@ -14,7 +14,21 @@
 call plug#begin('~/.vim/plugged')
 "Plug 'https://github.com/vim-airline/vim-airline.git'
 "Plug 'https://github.com/dawikur/base16-vim-airline-themes.git', { 'do': './after.sh' }
+" :ALEDetail to get the full pane.
+Plug 'https://github.com/w0rp/ale'
+" Put a .editorconfig in a project to get per-project Vim settings.
+Plug 'https://github.com/editorconfig/editorconfig-vim'
+" fzf fuzzy finder
+" Use with :Files command. `map ; :Files<CR>` is a recommended mapping.
+"Plug 'https://github.com/junegunn/fzf.vim'
+Plug 'https://github.com/airblade/vim-gitgutter'
+" :NERDTreeToggle
+Plug 'https://github.com/scrooloose/nerdtree'
 call plug#end()
+
+" Follow-up plugin setup.
+" fzf
+"nmap <Leader>f :Files<CR>
 
 
 "
@@ -27,7 +41,7 @@ set backspace=indent,start,eol
 
 set number
 set relativenumber
-"set cursorline
+"set cursorline  # too expensive in some cases
 
 " jk as escape key
 inoremap jk <esc>
@@ -53,7 +67,7 @@ set scrolloff=0
 set sidescrolloff=0
 
 " Don't redraw while executing macros
-set lazyredraw
+"set lazyredraw
 
 " Show matching brackets when text indicator is over them
 set showmatch
@@ -67,9 +81,9 @@ set mat=2
 "syntax on
 syntax enable
 
-"colorscheme badwolf
-"colorscheme base16-monokai
 set background=dark
+colorscheme badwolf
+"colorscheme base16-monokai
 
 """
 """ Tabs
@@ -82,14 +96,17 @@ set tabstop=4
 set softtabstop=4
 
 " Auto and smart indent
-set autoindent
-set copyindent
-set smartindent
+"set copyindent
+"set autoindent  " trying out cindent instead for a bit.
+"set smartindent  " trying out cindent instead for a bit.
+set cindent
 
 " Don't auto-continue comments quite so much ('ro' not present).
 " :h 'formatoptions'
 " :h fo-table
 set formatoptions=crqnlj
+" Fix our formatoptions after filetype plugins mess with them.
+autocmd BufNewFile,BufRead * setlocal formatoptions=crqnlj
 
 " Do not recognize octal numbers for Ctrl-A and Ctrl-X, most users find it
 " confusing.
