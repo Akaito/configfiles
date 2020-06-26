@@ -23,7 +23,11 @@ Plug 'https://github.com/editorconfig/editorconfig-vim'
 
 " fzf fuzzy finder
 " Use with :Files command. `map ; :Files<CR>` is a recommended mapping.
-"Plug 'https://github.com/junegunn/fzf.vim', { 'dir': '~/.fzf', 'do': './install --all' }
+"Plug 'https://github.com/airblade/vim-rooter'
+"Plug 'https://github.com/junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
+Plug 'https://github.com/junegunn/fzf', { 'do': { -> fzf#install() } }
+Plug '~/.fzf'
+"Plug 'junegunn/fzf.vim'
 
 Plug 'https://github.com/airblade/vim-gitgutter'
 
@@ -223,7 +227,21 @@ set undofile
 " Change leader from backslash to spacebar.
 let g:mapleader = " "
 " toggle file tree with leader-t
-nmap <Leader>t :NERDTreeToggle<CR>
+nnoremap <Leader>t :NERDTreeToggle<CR>
 " switch back to previous buffer
-nmap <Leader><Leader> <C-^>
+nnoremap <Leader><Leader> <C-^>
+" clear search
+"nnoremap <Leader>/ :let @/ = ''<CR>
+" clear search until next occurs
+nnoremap <Leader>/ :nohlsearch<CR>
+
+" fzf from the root of the git directory
+function! GitRootOrHere()
+    silent let l:path = system('[[ $(git rev-parse --show-toplevel 2>/dev/null) && $? -eq 0 ]] && echo $(git rev-parse --show-toplevel) || pwd')
+    let l:path = fnamemodify(l:path, ':~:.')[:-2]
+    call fzf#run({'sink': 'e', 'dir': l:path, 'window': 'belowright 30new'})
+    "return l:path
+endfunction
+nnoremap <Leader>f :call GitRootOrHere()<CR>
+"nnoremap <Leader>f :echom GitRootOrHere()<CR>
 
