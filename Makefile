@@ -12,7 +12,7 @@ mkfile_dir  := $(dir $(abspath $(lastword $(MAKEFILE_LIST))))
 
 
 .PHONY: all \
-	configs bash git ncmpcpp termux tmux vim \
+	configs bash git ncmpcpp nvim termux tmux vim \
 	keys \
 	apt apt-install apt-beyondcompare apt-syncthing \
 	pip pip3-install \
@@ -33,7 +33,7 @@ test:
 
 #=== configs ===
 
-configs: bash git ncmpcpp ssh termux tmux vim
+configs: bash git ncmpcpp nvim ssh termux tmux vim
 
 bash:
 ifeq ($(uname_o),Android)
@@ -62,6 +62,12 @@ ifneq ($(uname_o),Android)
 	# Only copy config file if doesn't exist, since private data will be entered in the local-only copy.
 	if [ ! -f ~/.ncmpcpp/config ]; then cp ncmpcpp/config ~/.ncmpcpp/config; fi
 endif
+
+
+nvim:
+	mkdir --parents ~/.config
+	rm -rf ~/.config/nvim
+	ln -sf $(realpath nvim) ~/.config/nvim
 
 
 ssh:
