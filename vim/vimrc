@@ -233,12 +233,16 @@ nnoremap <Leader><Leader> <C-^>
 nnoremap <Leader>/ :nohlsearch<CR>
 
 " fzf from the root of the git directory
-function! GitRootOrHere()
+function! FzfGitRootOrHere()
     silent let l:path = system('[[ $(git rev-parse --show-toplevel 2>/dev/null) && $? -eq 0 ]] && echo $(git rev-parse --show-toplevel) || pwd')
     let l:path = fnamemodify(l:path, ':~:.')[:-2]
+    "let g:fzf_action = {
+    "    \ 'ctrl-t': 'tab split',
+    "    \ 'ctrl-x': 'split',
+    "    \ 'ctrl-v': 'vsplit' }
     call fzf#run(fzf#wrap({'dir': l:path, 'sink': 'e'}))
     "return l:path
 endfunction
-nnoremap <Leader>f :call GitRootOrHere()<CR>
+nnoremap <Leader>f :call FzfGitRootOrHere()<CR>
 "nnoremap <Leader>f :echom GitRootOrHere()<CR>
 
