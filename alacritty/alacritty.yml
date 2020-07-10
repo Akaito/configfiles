@@ -278,7 +278,7 @@ visual_bell:
   animation: EaseOutExpo
   duration: 40
   #color: '#ffffff'
-  color: '0x474842'
+  color: '#474842'
 
 # Background opacity
 #
@@ -570,46 +570,33 @@ key_bindings:
   # Print all received window events.
   #print_events: false
 
-
-
-#
-# base16 color theme
-#
-
-# Base16 Monokai - alacritty color config
-# Wimer Hazenberg (http://www.monokai.nl)
+# From https://github.com/alacritty/alacritty/wiki/Color-schemes#monokai
+# Colors (Monokai Dark)
 colors:
   # Default colors
   primary:
-    background: '0x272822'
-    foreground: '0xf8f8f2'
-
-  # Colors the cursor will use if `custom_cursor_colors` is true
-  cursor:
-    text: '0x272822'
-    cursor: '0xf8f8f2'
+    background: '#272822'
+    foreground: '#F8F8F2'
 
   # Normal colors
   normal:
-    black:   '0x272822'
-    red:     '0xf92672'
-    green:   '0xa6e22e'
-    yellow:  '0xf4bf75'
-    blue:    '0x66d9ef'
-    magenta: '0xae81ff'
-    cyan:    '0xa1efe4'
-    white:   '0xf8f8f2'
+   black:   '#272822'
+   red:     '#F92672'
+   green:   '#A6E22E'
+   yellow:  '#F4BF75'
+   blue:    '#66D9EF'
+   magenta: '#AE81FF'
+   cyan:    '#A1EFE4'
+   white:   '#F8F8F2'
 
   # Bright colors
   bright:
-    black:   '0x75715e'
-    red:     '0xfd971f'
-    green:   '0x383830'
-    yellow:  '0x49483e'
-    blue:    '0xa59f85'
-    magenta: '0xf5f4f1'
-    cyan:    '0xcc6633'
-    white:   '0xf9f8f5'
-
-draw_bold_text_with_bright_colors: false
+   black:   '#75715E'
+   red:     '#F92672'
+   green:   '#A6E22E'
+   yellow:  '#F4BF75'
+   blue:    '#66D9EF'
+   magenta: '#AE81FF'
+   cyan:    '#A1EFE4'
+   white:   '#F9F8F5'
 
