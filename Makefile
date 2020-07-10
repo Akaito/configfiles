@@ -2,7 +2,7 @@
 uname_s := $(shell uname -s)
 # i386, x86_64, armv71
 uname_m := $(shell uname -m)
-# Android
+# Android, GNU/Linux
 uname_o := $(shell uname -o)
 
 # https://stackoverflow.com/questions/18136918/how-to-get-current-relative-directory-of-your-makefile
@@ -12,7 +12,8 @@ mkfile_dir  := $(dir $(abspath $(lastword $(MAKEFILE_LIST))))
 
 
 .PHONY: all \
-	configs bash git ncmpcpp nvim termux tmux vim \
+	configs \
+	alacritty bash git ncmpcpp nvim termux tmux vim \
 	keys \
 	apt apt-install apt-beyondcompare apt-syncthing \
 	pip pip3-install \
@@ -33,7 +34,14 @@ test:
 
 #=== configs ===
 
-configs: bash git ncmpcpp nvim ssh termux tmux vim
+configs: alacritty bash git ncmpcpp nvim ssh termux tmux vim
+
+alacritty:
+ifneq ($(uname_o),Android)
+	mkdir --parents ~/.config
+	rm -rf ~/.config/alacritty
+	ln -sf $(realpath alacritty) ~/.config/alacritty
+endif  # neq Android
 
 bash:
 ifeq ($(uname_o),Android)
@@ -65,9 +73,11 @@ endif
 
 
 nvim:
+ifneq ($(uname_o),Android)
 	mkdir --parents ~/.config
 	rm -rf ~/.config/nvim
 	ln -sf $(realpath nvim) ~/.config/nvim
+endif
 
 
 ssh:
