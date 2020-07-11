@@ -324,6 +324,11 @@ cursor:
 #  program: /bin/bash
 #  args:
 #    - --login
+shell:
+  program: /usr/bin/tmux
+  args:
+    #- -2 # force tmux to assume the terminal supports 256-color mode
+    - -u # force UTF-8 in tmux
 
 # Startup directory
 #

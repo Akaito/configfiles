@@ -124,6 +124,17 @@ set background=dark
 colorscheme base16-monokai
 if has('termguicolors')
     set termguicolors  " fixes color scheme for bash WSL in Cmder.  To be tested on *nix.
+
+    " fix for tmux
+    if &term =~# '^screen-256color'
+      "let &t_8f = "^[[38;2;%lu;%lu;%lum"
+      "let &t_8b = "^[[48;2;%lu;%lu;%lum"
+      "let &t_8f = "\<Esc>[38:2:%lu:%lu:%lum"
+      "let &t_8b = "\<Esc>[48:2:%lu:%lu:%lum"
+      " Suggested fixes for vim in tmux aren't working.
+      " This might be gross in some way, but it's fine enough for me for now.
+      let &term = "xterm-256color"
+    endif
 endif
 
 

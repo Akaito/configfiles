@@ -45,7 +45,7 @@ endif  # neq Android
 
 bash:
 ifeq ($(uname_o),Android)
-	cp bash/bashrc-termux ~/.bashrc
+	cp bash/bashrc-android ~/.bashrc
 else
 	rm -f ~/.bashrc
 	ln bash/bashrc-debian ~/.bashrc
