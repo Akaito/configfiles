@@ -552,6 +552,8 @@ key_bindings:
   # (Mine)
   # Full-screen toggle for more than just Windows
   - { key: F11, mods: None, action: ToggleFullscreen }
+  # Fix C-Space tmux prefix in Windows
+  - { key: Space, mods: Control, chars: "\x00" }
 
 #debug:
   # Display the time it takes to redraw each frame.
