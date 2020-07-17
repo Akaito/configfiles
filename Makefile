@@ -4,6 +4,10 @@ uname_s := $(shell uname -s)
 uname_m := $(shell uname -m)
 # Android, GNU/Linux
 uname_o := $(shell uname -o)
+# 4.4.0-18362-Microsoft
+uname_r := $(shell uname -r)
+# Use this way later:
+# ifneq (,$(findstring Microsoft,$(uname_r)))  # if WSL
 
 # https://stackoverflow.com/questions/18136918/how-to-get-current-relative-directory-of-your-makefile
 # https://www.gnu.org/software/make/manual/html_node/File-Name-Functions.html
