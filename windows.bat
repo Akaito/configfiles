@@ -11,6 +11,14 @@ mkdir "%APPDATA%\alacritty"
 mklink /H "%APPDATA%\alacritty\alacritty.yml" alacritty\alacritty-windows.yml
 :no_alacritty
 
+REM Git
+choice /M "Config git?"
+if /I "%ERRORLEVEL%" neq "1" goto no_git
+echo "Configuring git..."
+del "%USERPROFILE%\.gitconfig"
+mklink /H "%USERPROFILE%\.gitconfig" git\gitconfig
+:no_git
+
 REM Vim
 choice /M "Config vim?"
 if /I "%ERRORLEVEL%" neq "1" goto no_vim
