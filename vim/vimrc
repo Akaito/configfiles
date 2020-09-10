@@ -42,11 +42,13 @@ Plug 'https://github.com/scrooloose/nerdtree'
 
 " NeoVim-specific
 
+if !has("win32")
 " NeoVim requirement for Rust niceties
 Plug 'https://github.com/autozimu/LanguageClient-neovim', {
     \ 'branch': 'next',
     \ 'do':     'bash install.sh',
     \ }
+endif
 Plug 'https://github.com/ncm2/ncm2'  " nice auto-complete to work with RLS, etc.
 Plug 'https://github.com/roxma/nvim-yarp'  " ncm2 requires this
 

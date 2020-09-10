@@ -23,8 +23,10 @@ REM Vim
 choice /M "Config vim?"
 if /I "%ERRORLEVEL%" neq "1" goto no_vim
 echo "Configuring vim..."
+del /F /Q /S "%USERPROFILE%\vimfiles"
+del "%USERPROFILE%\.vimrc"
+mklink /J "%USERPROFILE%\vimfiles" vim
 mklink /H "%USERPROFILE%\.vimrc" vim\vimrc
-mklink /J "%USERPROFILE%\.vim" vim
 :no_vim
 
 endlocal
