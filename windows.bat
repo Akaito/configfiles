@@ -1,6 +1,6 @@
 @ECHO OFF
 setlocal
-echo "REM: Run this as admin."
+REM echo "REM: Run this as admin... Maybe?"
 
 REM Alacritty
 choice /M "Config alacritty?"
