@@ -97,13 +97,13 @@ endif
 
 
 tmux:
-	rm ~/.tmux.conf
+	if [ -f ~/.tmux.conf && ! -L ~/.tmux.conf ] ; then mv ~/.tmux.conf ~/.tmux.conf-makebak}; fi
 ifeq ($(uname_o),Android)
 	cp tmux/tmux.conf ~/.tmux.conf
 else
-	ln -s $(mkfile_dir)/tmux/tmux.conf ~/.tmux.conf
+	ln -sf $(realpath tmux/tmux.conf) ~/.tmux.conf
 endif
-	if [ `command -v tmux` ]; then tmux source-file ~/.tmux.conf; fi
+	-if [ `command -v tmux` ]; then tmux source-file ~/.tmux.conf; fi
 
 
 vim:
