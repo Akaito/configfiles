@@ -142,3 +142,10 @@ EDITOR=vim
 # execute previous or most-recent-starting-with-pattern commands
 alias r='fc -s'
 
+
+# add Pulumi to the PATH
+export PATH=$PATH:$HOME/.pulumi/bin
+
+# add some firewalk_server binaries to the PATH
+export PATH=$PATH:$HOME/firewalk_server/src/c/bin
+
