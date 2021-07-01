@@ -86,7 +86,7 @@ endif
 
 ssh:
 	@# if regular file (not a symlink; that'd be -L), make a backup first
-	if [ -f ~/.ssh/config && ! -L ~/.ssh/config ] ; then mv ~/.ssh/config{,-makebak}; fi
+	if [ -f ~/.ssh/config && ! -L ~/.ssh/config ] ; then mv ~/.ssh/config{,-makebak} ; fi
 	ln -sf $(realpath ssh/config) ~/.ssh/config
 
 
@@ -97,7 +97,7 @@ endif
 
 
 tmux:
-	if [ -f ~/.tmux.conf && ! -L ~/.tmux.conf ] ; then mv ~/.tmux.conf ~/.tmux.conf-makebak}; fi
+	if [ -f ~/.tmux.conf && ! -L ~/.tmux.conf ] ; then mv ~/.tmux.conf ~/.tmux.conf-makebak ; fi
 ifeq ($(uname_o),Android)
 	cp tmux/tmux.conf ~/.tmux.conf
 else
@@ -117,6 +117,7 @@ else
 	rm -f ~/.vimrc
 	ln -sf $(mkfile_dir)/vim ~/.vim
 	ln -f $(mkfile_dir)/vim/vimrc ~/.vimrc
+	vim -c PlugUpgrade -c PlugUpdate -c qa
 endif
 
 
