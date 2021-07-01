@@ -42,11 +42,13 @@ Plug 'https://github.com/scrooloose/nerdtree'
 
 " NeoVim-specific
 
+if !has("win32")
 " NeoVim requirement for Rust niceties
 Plug 'https://github.com/autozimu/LanguageClient-neovim', {
     \ 'branch': 'next',
     \ 'do':     'bash install.sh',
     \ }
+endif
 Plug 'https://github.com/ncm2/ncm2'  " nice auto-complete to work with RLS, etc.
 Plug 'https://github.com/roxma/nvim-yarp'  " ncm2 requires this
 
@@ -222,7 +224,7 @@ endif
 
 
 """
-""" Tabs
+""" Tabs and Formatting
 """
 
 set expandtab
@@ -240,7 +242,7 @@ set cindent
 " Don't auto-continue comments quite so much ('ro' not present).
 " :h 'formatoptions'
 " :h fo-table
-set formatoptions=crqnlj
+set formatoptions=tcrqanljp
 " Fix our formatoptions after filetype plugins mess with them.
 autocmd BufNewFile,BufRead * setlocal formatoptions=crqnlj
 
@@ -270,6 +272,13 @@ if &term =~ '256color'
     let &t_8f = "\<Esc>[38;2;%lu;%lu;%lum"
     let &t_8b = "\<Esc>[48;2;%lu;%lu;%lum"
 endif
+
+"""
+""" Jump to last position when opening a file.
+""" May affect commit messages as well.  To be determined.
+""" https://unix.stackexchange.com/questions/23335/how-to-open-a-file-in-the-last-closed-position-in-vi
+"""
+au BufReadPost * if line("'\"") > 1 && line("'\"") <= line("$") | exe "normal! g`\"" | endif
 
 
 """

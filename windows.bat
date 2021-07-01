@@ -1,6 +1,6 @@
 @ECHO OFF
 setlocal
-echo "REM: Run this as admin."
+REM echo "REM: Run this as admin... Maybe?"
 
 REM Alacritty
 choice /M "Config alacritty?"
@@ -11,12 +11,22 @@ mkdir "%APPDATA%\alacritty"
 mklink /H "%APPDATA%\alacritty\alacritty.yml" alacritty\alacritty-windows.yml
 :no_alacritty
 
+REM Git
+choice /M "Config git?"
+if /I "%ERRORLEVEL%" neq "1" goto no_git
+echo "Configuring git..."
+del "%USERPROFILE%\.gitconfig"
+mklink /H "%USERPROFILE%\.gitconfig" git\gitconfig
+:no_git
+
 REM Vim
 choice /M "Config vim?"
 if /I "%ERRORLEVEL%" neq "1" goto no_vim
 echo "Configuring vim..."
-REM mklink /H "%USERPROFILE%\.vimrc" vim\vimrc
-REM mklink /J "%USERPROFILE%\.vim" vim
+del /F /Q /S "%USERPROFILE%\vimfiles"
+del "%USERPROFILE%\.vimrc"
+mklink /J "%USERPROFILE%\vimfiles" vim
+mklink /H "%USERPROFILE%\.vimrc" vim\vimrc
 :no_vim
 
 endlocal
