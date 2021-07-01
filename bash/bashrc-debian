@@ -135,17 +135,19 @@ fi
 
 # ChrisB custom stuff
 EDITOR=vim
-# Add Rust programs, such as installed like `cargo install exa`, to path.
-# TODO : Fix just making the PATH copy and copy and copy each time.
-#PATH="$PATH:/home/$USER/.cargo/bin"
+# Add Rust programs, such as installed via `cargo install exa`, to path.
+if ! echo $PATH | grep -q /home/$USER/.cargo/bin
+then
+    PATH="$PATH:/home/$USER/.cargo/bin"
+fi
 
 # execute previous or most-recent-starting-with-pattern commands
 alias r='fc -s'
 
 
 # add Pulumi to the PATH
-export PATH=$PATH:$HOME/.pulumi/bin
+#export PATH=$PATH:$HOME/.pulumi/bin
 
 # add some firewalk_server binaries to the PATH
-export PATH=$PATH:$HOME/firewalk_server/src/c/bin
+#export PATH=$PATH:$HOME/firewalk_server/src/c/bin
 
