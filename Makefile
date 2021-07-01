@@ -107,6 +107,7 @@ endif
 
 
 vim:
+	mkdir --parents ~/.vimdid
 ifeq ($(uname_o),Android)
 	rm -rf ~/.vim
 	cp -r vim ~/.vim
