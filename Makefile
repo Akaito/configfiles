@@ -15,13 +15,17 @@ mkfile_path := $(abspath $(lastword $(MAKEFILE_LIST)))
 mkfile_dir  := $(dir $(abspath $(lastword $(MAKEFILE_LIST))))
 
 
-.PHONY: all \
+.PHONY: help \
+	all \
 	configs \
 	alacritty bash git ncmpcpp nvim termux tmux vim \
 	keys \
 	apt apt-install apt-beyondcompare apt-syncthing \
 	pip pip3-install \
 	samba ssh sshd
+
+help:
+	@echo 'Use `make <tab><tab>` to see what options are available.'
 
 
 all: configs keys apt pip
@@ -51,7 +55,7 @@ bash:
 ifeq ($(uname_o),Android)
 	cp bash/bashrc-android ~/.bashrc
 else
-	rm -f ~/.bashrc
+	mv ~/.bashrc ~/.bashrc-makebak
 	ln bash/bashrc-debian ~/.bashrc
 endif
 	. ~/.bashrc
@@ -61,7 +65,7 @@ git:
 ifeq ($(uname_o),Android)
 	cp git/gitconfig ~/.gitconfig
 else
-	rm -f ~/.gitconfig
+	mv ~/.gitconfig ~/.gitconfig-makebak
 	ln git/gitconfig ~/.gitconfig
 endif
 
@@ -129,7 +133,7 @@ keys: key-ssh
 key-ssh: ~/.ssh/id_rsa
 
 ~/.ssh/id_rsa:
-	ssh-keygen -b 4096 -t rsa -C "$(USER)@$(shell hostname)"
+	ssh-keygen -t ed25519 -C "$(USER)@$(shell hostname)"
 
 
 #=== installations : apt ===
