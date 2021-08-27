@@ -65,8 +65,8 @@ git:
 ifeq ($(uname_o),Android)
 	cp git/gitconfig ~/.gitconfig
 else
-	mv ~/.gitconfig ~/.gitconfig-makebak
-	ln git/gitconfig ~/.gitconfig
+	@if [ -f ~/.gitconfig ]; then mv ~/.gitconfig ~/.gitconfig-makebak; fi
+	ln -sf $(mkfile_dir)/git/gitconfig ~/.gitconfig
 endif
 
 
