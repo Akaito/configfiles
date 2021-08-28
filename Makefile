@@ -47,6 +47,7 @@ configs: alacritty bash git nvim ssh termux tmux vim
 alacritty:
 ifneq ($(uname_o),Android)
 	mkdir --parents ~/.config
+	if [ -d ~/.config/alacritty && ! -d ~/.config/alacritty-makebak ]; then mv ~/.config/alacritty{,-makebak}; fi
 	rm -rf ~/.config/alacritty
 	ln -sf $(realpath alacritty) ~/.config/alacritty
 endif  # neq Android
@@ -66,21 +67,21 @@ ifeq ($(uname_o),Android)
 	cp git/gitconfig ~/.gitconfig
 else
 	if [ -f ~/.gitconfig ]; then mv ~/.gitconfig ~/.gitconfig-makebak; fi
-	ln git/gitconfig ~/.gitconfig
+	ln -sf git/gitconfig ~/.gitconfig
 endif
 
 
 nvim:
 ifneq ($(uname_o),Android)
 	mkdir --parents ~/.config
+	if [ -d ~/.config/nvim && ! -d ~/.config/nvim-makebak ]; then mv ~/.config/nvim{,-makebak}; fi
 	rm -rf ~/.config/nvim
 	ln -sf $(realpath nvim) ~/.config/nvim
 endif
 
 
 ssh:
-	@# if regular file (not a symlink; that'd be -L), make a backup first
-	if [ -f ~/.ssh/config && ! -L ~/.ssh/config ] ; then mv ~/.ssh/config{,-makebak} ; fi
+	if [ -f ~/.ssh/config ] ; then mv ~/.ssh/config{,-makebak} ; fi
 	ln -sf $(realpath ssh/config) ~/.ssh/config
 
 
@@ -91,7 +92,7 @@ endif
 
 
 tmux:
-	if [ -f ~/.tmux.conf && ! -L ~/.tmux.conf ] ; then mv ~/.tmux.conf ~/.tmux.conf-makebak ; fi
+	if [ -f ~/.tmux.conf ] ; then mv ~/.tmux.conf ~/.tmux.conf-makebak ; fi
 ifeq ($(uname_o),Android)
 	cp tmux/tmux.conf ~/.tmux.conf
 else
