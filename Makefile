@@ -18,7 +18,7 @@ mkfile_dir  := $(dir $(abspath $(lastword $(MAKEFILE_LIST))))
 .PHONY: help \
 	all \
 	configs \
-	alacritty bash git ncmpcpp nvim termux tmux vim \
+	alacritty bash git nvim termux tmux vim \
 	keys \
 	apt apt-install apt-beyondcompare apt-syncthing \
 	pip pip3-install \
@@ -42,7 +42,7 @@ test:
 
 #=== configs ===
 
-configs: alacritty bash git ncmpcpp nvim ssh termux tmux vim
+configs: alacritty bash git nvim ssh termux tmux vim
 
 alacritty:
 ifneq ($(uname_o),Android)
@@ -55,8 +55,8 @@ bash:
 ifeq ($(uname_o),Android)
 	cp bash/bashrc-android ~/.bashrc
 else
-	mv ~/.bashrc ~/.bashrc-makebak
-	ln bash/bashrc-debian ~/.bashrc
+	if [ -f ~/.bashrc ]; then mv ~/.bashrc ~/.bashrc-makebak; fi
+	ln -sf bash/bashrc-debian ~/.bashrc
 endif
 	. ~/.bashrc
 
@@ -65,18 +65,8 @@ git:
 ifeq ($(uname_o),Android)
 	cp git/gitconfig ~/.gitconfig
 else
-	mv ~/.gitconfig ~/.gitconfig-makebak
+	if [ -f ~/.gitconfig ]; then mv ~/.gitconfig ~/.gitconfig-makebak; fi
 	ln git/gitconfig ~/.gitconfig
-endif
-
-
-ncmpcpp:
-ifneq ($(uname_o),Android)
-	if [ ! -d ~/.ncmpcpp ]; then mkdir ~/.ncmpcpp; fi
-	rm -f ~/.ncmpcpp/bindings
-	ln ncmpcpp/bindings ~/.ncmpcpp/bindings
-	# Only copy config file if doesn't exist, since private data will be entered in the local-only copy.
-	if [ ! -f ~/.ncmpcpp/config ]; then cp ncmpcpp/config ~/.ncmpcpp/config; fi
 endif
 
 
@@ -152,8 +142,7 @@ ifneq ($(uname_o),Android)
 		cmake \
 		libsdl2-dev libsdl2-gfx-dev libsdl2-ttf-dev \
 		libsdl2-doc \
-		byzanz \
-		ncmpcpp
+		byzanz
 endif
 
 apt-beyondcompare:
