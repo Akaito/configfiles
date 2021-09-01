@@ -57,7 +57,7 @@ ifeq ($(uname_o),Android)
 	cp bash/bashrc-android ~/.bashrc
 else
 	if [ -f ~/.bashrc ]; then mv ~/.bashrc ~/.bashrc-makebak; fi
-	ln -sf bash/bashrc-debian ~/.bashrc
+	ln -sf $(realpath bash)/bashrc-debian ~/.bashrc
 endif
 	. ~/.bashrc
 
@@ -67,7 +67,7 @@ ifeq ($(uname_o),Android)
 	cp git/gitconfig ~/.gitconfig
 else
 	if [ -f ~/.gitconfig ]; then mv ~/.gitconfig ~/.gitconfig-makebak; fi
-	ln -sf git/gitconfig ~/.gitconfig
+	ln -sf $(realpath git)/gitconfig ~/.gitconfig
 endif
 
 
