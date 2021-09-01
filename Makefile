@@ -22,6 +22,7 @@ mkfile_dir  := $(dir $(abspath $(lastword $(MAKEFILE_LIST))))
 	keys \
 	apt apt-install apt-beyondcompare apt-syncthing \
 	pip pip3-install \
+	iptables \
 	samba ssh sshd
 
 help:
@@ -69,6 +70,14 @@ else
 	if [ -f ~/.gitconfig ]; then mv ~/.gitconfig ~/.gitconfig-makebak; fi
 	ln -sf $(realpath git)/gitconfig ~/.gitconfig
 endif
+
+
+iptables:
+	echo TODO
+	# Ensure package `iptables-persistent` is installed.
+	# Append(? or copy/ln?) iptables/rules.v4 over to /etc/iptables/rules.v4
+	# Look into rules.v6
+	# service netfilter-persistent reload
 
 
 nvim:
