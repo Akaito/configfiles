@@ -21,6 +21,7 @@ mkfile_dir  := $(dir $(abspath $(lastword $(MAKEFILE_LIST))))
 	alacritty bash git nvim termux tmux vim \
 	keys \
 	apt apt-install apt-beyondcompare apt-syncthing \
+	rust \
 	pip pip3-install \
 	iptables \
 	samba ssh sshd
@@ -87,6 +88,10 @@ ifneq ($(uname_o),Android)
 	rm -rf ~/.config/nvim
 	ln -sf $(realpath nvim) ~/.config/nvim
 endif
+
+
+rust:
+	curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
 
 
 ssh:

@@ -136,10 +136,10 @@ fi
 # ChrisB custom stuff
 EDITOR=vim
 # Add Rust programs, such as installed via `cargo install exa`, to path.
-if ! echo $PATH | grep -q /home/$USER/.cargo/bin
-then
-    PATH="$PATH:/home/$USER/.cargo/bin"
-fi
+#if ! echo $PATH | grep -q /home/$USER/.cargo/bin
+#then
+#    PATH="$PATH:/home/$USER/.cargo/bin"
+#fi
 
 # Execute previous or most-recent-starting-with-pattern commands.
 alias r='fc -s'
@@ -154,4 +154,6 @@ alias weather='~/configfiles/scripts/weather.sh'
 # add some firewalk_server binaries to the PATH
 #export PATH=$PATH:$HOME/firewalk_server/src/c/bin
 
-. "$HOME/.cargo/env"
+if [ -f $HOME/.cargo/env ]; then
+    . "$HOME/.cargo/env"
+fi
