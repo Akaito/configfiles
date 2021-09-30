@@ -27,6 +27,8 @@ del /F /Q /S "%USERPROFILE%\vimfiles"
 del "%USERPROFILE%\.vimrc"
 mklink /J "%USERPROFILE%\vimfiles" vim
 mklink /H "%USERPROFILE%\.vimrc" vim\vimrc
+REM mklink /H "%USERPROFILE%\.vimrc" vim\vimrc
+REM mklink /J "%USERPROFILE%\.vim" vim
 :no_vim
 
 endlocal

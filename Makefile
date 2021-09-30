@@ -58,8 +58,8 @@ bash:
 ifeq ($(uname_o),Android)
 	cp bash/bashrc-android ~/.bashrc
 else
-	if [ -f ~/.bashrc ]; then mv ~/.bashrc ~/.bashrc-makebak; fi
-	ln -sf $(realpath bash)/bashrc-debian ~/.bashrc
+	mv ~/.bashrc ~/.bashrc-makebak
+	ln bash/bashrc-debian ~/.bashrc
 endif
 	. ~/.bashrc
 
@@ -68,8 +68,8 @@ git:
 ifeq ($(uname_o),Android)
 	cp git/gitconfig ~/.gitconfig
 else
-	if [ -f ~/.gitconfig ]; then mv ~/.gitconfig ~/.gitconfig-makebak; fi
-	ln -sf $(realpath git)/gitconfig ~/.gitconfig
+	@if [ -f ~/.gitconfig ]; then mv ~/.gitconfig ~/.gitconfig-makebak; fi
+	ln -sf $(mkfile_dir)/git/gitconfig ~/.gitconfig
 endif
 
 
@@ -79,6 +79,16 @@ iptables:
 	# Append(? or copy/ln?) iptables/rules.v4 over to /etc/iptables/rules.v4
 	# Look into rules.v6
 	# service netfilter-persistent reload
+
+
+ncmpcpp:
+ifneq ($(uname_o),Android)
+	if [ ! -d ~/.ncmpcpp ]; then mkdir ~/.ncmpcpp; fi
+	rm -f ~/.ncmpcpp/bindings
+	ln ncmpcpp/bindings ~/.ncmpcpp/bindings
+	# Only copy config file if doesn't exist, since private data will be entered in the local-only copy.
+	if [ ! -f ~/.ncmpcpp/config ]; then cp ncmpcpp/config ~/.ncmpcpp/config; fi
+endif
 
 
 nvim:
@@ -95,7 +105,8 @@ rust:
 
 
 ssh:
-	if [ -f ~/.ssh/config ] ; then mv ~/.ssh/config{,-makebak} ; fi
+	@# if regular file (not a symlink; that'd be -L), make a backup first
+	if [ -f ~/.ssh/config && ! -L ~/.ssh/config ] ; then mv ~/.ssh/config{,-makebak} ; fi
 	ln -sf $(realpath ssh/config) ~/.ssh/config
 
 
@@ -106,7 +117,7 @@ endif
 
 
 tmux:
-	if [ -f ~/.tmux.conf ] ; then mv ~/.tmux.conf ~/.tmux.conf-makebak ; fi
+	if [ -f ~/.tmux.conf && ! -L ~/.tmux.conf ] ; then mv ~/.tmux.conf ~/.tmux.conf-makebak ; fi
 ifeq ($(uname_o),Android)
 	cp tmux/tmux.conf ~/.tmux.conf
 else
