@@ -8,7 +8,7 @@ if /I "%ERRORLEVEL%" neq "1" goto no_alacritty
 echo "Configuring alacritty..."
 del "%APPDATA%\alacritty"
 mkdir "%APPDATA%\alacritty"
-mklink /H "%APPDATA%\alacritty\alacritty.yml" alacritty\alacritty-windows.yml
+mklink /H "%APPDATA%\alacritty\alacritty.yml" alacritty\alacritty.windows.yml
 :no_alacritty
 
 REM Git
