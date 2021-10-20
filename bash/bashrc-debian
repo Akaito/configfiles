@@ -141,6 +141,11 @@ EDITOR=vim
 #    PATH="$PATH:/home/$USER/.cargo/bin"
 #fi
 
+# For Loading the SSH key (SSH agent)
+# https://esc.sh/blog/ssh-agent-windows10-wsl2/
+#/usr/bin/keychain --nogui $HOME/.ssh/id_rsa
+#source $HOME/.keychain/$HOST-sh
+
 # Execute previous or most-recent-starting-with-pattern commands.
 alias r='fc -s'
 # Terminal print-out of weather forecast.  `forecast Seattle` to change location.
