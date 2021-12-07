@@ -252,6 +252,7 @@ set cindent
 set formatoptions=tcrqanljp
 " Fix our formatoptions after filetype plugins mess with them.
 autocmd BufNewFile,BufRead * setlocal formatoptions=crqnlj
+autocmd BufNewFile,BufRead *.uplugin setlocal ft=json
 
 " Do not recognize octal numbers for Ctrl-A and Ctrl-X, most users find it
 " confusing.
