@@ -40,6 +40,12 @@ Plug 'https://github.com/preservim/nerdtree'
 " Sensible vim is a good source, but maybe not using it directly.
 "Plug 'https://github.com/tpope/vim-sensible'
 
+" TOML highlight plugin; nigh-official.  Talk exists about merging it into vim
+" itself.
+Plug 'https://github.com/cespare/vim-toml', {
+    \ 'branch': 'main',
+    \ }
+
 " NeoVim-specific
 
 if !has("win32")
