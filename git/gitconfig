@@ -20,5 +20,21 @@
     co = checkout
     st = status -s
     subup = submodule update --init --recursive
-    mff = merge --ff-only
+    ff = merge --ff-only
+
+#[diff]
+#	tool = bc3
+#[difftool]
+#    prompt = false
+#[difftool "bc3"]
+#    cmd = /mnt/c/Program\\ Files/Beyond\\ Compare\\ 4/BCompare.exe "$(wslpath -aw $LOCAL)" "$(wslpath -aw $REMOTE)" /lefttitle=LOCAL /righttitle=REMOTE
+#	trustExitCode = true
+#
+#[merge]
+#    tool = bc3
+#[mergetool]
+#    prompt = true
+#[mergetool "bc3"]
+#    cmd = /mnt/c/Program\\ Files/Beyond\\ Compare\\ 4/BComp.exe /solo "$(wslpath -aw $LOCAL)" "$(wslpath -aw $REMOTE)" "$(wslpath -aw $BASE)" "$(wslpath -aw $MERGED)" /lefttitle=LOCAL /righttitle=REMOTE /centertitle=BASE
+#    trustExitCode = true
 
