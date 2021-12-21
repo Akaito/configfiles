@@ -59,11 +59,11 @@ ifeq ($(uname_o),Android)
 	cp bash/bashrc-android ~/.bashrc
 else
 	@# bashrc
-	@if [ -f ~/.bashrc ]; then mv ~/.bashrc ~/.bashrc-makebak
+	@if [ -f ~/.bashrc ]; then mv ~/.bashrc ~/.bashrc-makebak; fi
 	ln bash/bashrc-debian ~/.bashrc
 	@# dircolors (colors 'ls' and such output)
-	@if [ -f ~/.dircolors ]; then mv ~/.dircolors ~/.dircolors-makebak
-	ln bash/dircolors-debian ~/.dircolors
+	@if [ -f ~/.dircolors ]; then mv ~/.dircolors ~/.dircolors-makebak; fi
+	ln bash/dircolors ~/.dircolors
 endif
 	. ~/.bashrc
 
