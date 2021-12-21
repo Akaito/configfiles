@@ -58,8 +58,12 @@ bash:
 ifeq ($(uname_o),Android)
 	cp bash/bashrc-android ~/.bashrc
 else
-	mv ~/.bashrc ~/.bashrc-makebak
+	@# bashrc
+	@if [ -f ~/.bashrc ]; then mv ~/.bashrc ~/.bashrc-makebak
 	ln bash/bashrc-debian ~/.bashrc
+	@# dircolors (colors 'ls' and such output)
+	@if [ -f ~/.dircolors ]; then mv ~/.dircolors ~/.dircolors-makebak
+	ln bash/dircolors-debian ~/.dircolors
 endif
 	. ~/.bashrc
 
