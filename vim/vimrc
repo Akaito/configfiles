@@ -27,6 +27,7 @@ Plug 'https://github.com/editorconfig/editorconfig-vim'
 "Plug '~/.fzf'
 
 Plug 'https://github.com/airblade/vim-gitgutter'
+Plug 'https://github.com/tpope/vim-fugitive'
 
 Plug 'https://github.com/machakann/vim-highlightedyank'
 
