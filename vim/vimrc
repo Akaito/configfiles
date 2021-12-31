@@ -26,8 +26,8 @@ Plug 'https://github.com/editorconfig/editorconfig-vim'
 "Plug 'https://github.com/junegunn/fzf', { 'do': { -> fzf#install() } }
 "Plug '~/.fzf'
 
-Plug 'https://github.com/airblade/vim-gitgutter'
 Plug 'https://github.com/tpope/vim-fugitive'
+Plug 'https://github.com/airblade/vim-gitgutter'
 
 Plug 'https://github.com/machakann/vim-highlightedyank'
 
@@ -50,6 +50,14 @@ Plug 'https://github.com/preservim/nerdtree'
 
 " Sensible vim is a good source, but maybe not using it directly.
 "Plug 'https://github.com/tpope/vim-sensible'
+
+" <C-A>/<C-X> support for dates and other numerals.
+" d<C-X> sets hovered to current timestamp, or d<C-A> the same in UTC.
+Plug 'https://github.com/tpope/vim-speeddating'
+
+" HTML/XML tag editing.  `cs"'`, `cs'<p class="important">`, 'cst"`, `ysiw]`,
+" `ds]`, `VjjS<em>`, etc.
+Plug 'https://github.com/tpope/vim-surround'
 
 " TOML highlight plugin; nigh-official.  Talk exists about merging it into vim
 " itself.
@@ -255,7 +263,7 @@ set expandtab
 "set smarttab " tab inserts tabs for indents, space otherwise
 set shiftwidth=4
 set tabstop=4
-set softtabstop=4
+set softtabstop=-1 " when negative, shiftwidth's value is used instead.
 
 " Auto and smart indent
 "set copyindent
@@ -266,11 +274,25 @@ set cindent
 " Don't auto-continue comments quite so much ('ro' not present).
 " :h 'formatoptions'
 " :h fo-table
-set formatoptions=tcrqanljp
-" Fix our formatoptions after filetype plugins mess with them.
-autocmd BufNewFile,BufRead * setlocal formatoptions=crqnlj
-autocmd BufNewFile,BufRead *.uplugin setlocal ft=json
-autocmd BufNewFile,BufRead *.uproject setlocal ft=json
+set formatoptions=tcrqnljp
+
+""""" start editorconfig
+" Disable for git commit messages.
+autocmd FileType gitcommit let b:EditorConfig_disable = 1
+" Play nice with vim-fugitive.
+let g:EditorConfig_exclude_patterns = ['fugitive://.*']
+ Use the editorconfig plugin to support a project overriding filetypes with
+ an .editorconfig file.  Just have an .editorconfig file like:
+ [*.m]
+ vim_filetype = objc
+function! FiletypeHook(config)
+    if has_key(a:config, 'vim_filetype')
+        let &filetype = a:config['vim_filetype']
+    endif
+    return 0 " Return 0 to show no error happened.
+endfunction
+call editorconfig#AddNewHook(function('FiletypeHook'))
+""""" end editorconfig
 
 " Do not recognize octal numbers for Ctrl-A and Ctrl-X, most users find it
 " confusing.
