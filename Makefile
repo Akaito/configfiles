@@ -150,10 +150,10 @@ endif
 keys: key-ssh
 
 
-key-ssh: ~/.ssh/id_rsa
+key-ssh: ~/.ssh/id_ed25519 ~/.ssh/id_rsa
 
-~/.ssh/id_rsa:
-	ssh-keygen -t ed25519 -C "$(USER)@$(shell hostname)"
+~/.ssh/id_%:
+	ssh-keygen -t %* -C "$(USER)@$(shell hostname)"
 
 
 #=== installations : apt ===
