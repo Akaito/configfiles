@@ -38,6 +38,16 @@ Plug 'https://github.com/mike-hearn/base16-vim-lightline'
 " :NERDTreeToggle
 Plug 'https://github.com/preservim/nerdtree'
 
+" When editing a symlink in vim, follow it to get its true path.
+" May or may not want to keep this.  Using this prevents tricks like using
+" symlinks to have Vim auto-detect the right filetype for syntax highlighting
+" (Saltfile.yaml -> Saltfile).  But may help with overall properness/clarity
+" generally, and vim-fugitive specifically.
+"Plug 'https://github.com/aymericbeaumet/vim-symlink'
+" Author-suggested optional dependency to keep vim windows open when their
+" buffers are closed.
+"Plug 'https://github.com/moll/vim-bbye'
+
 " Sensible vim is a good source, but maybe not using it directly.
 "Plug 'https://github.com/tpope/vim-sensible'
 
@@ -293,11 +303,8 @@ endif
 """ Jump to last position when opening a file.
 """ Affects git commit messages as well.
 """ https://unix.stackexchange.com/questions/23335/how-to-open-a-file-in-the-last-closed-position-in-vi
-"""
 au BufReadPost * if line("'\"") > 1 && line("'\"") <= line("$") | exe "normal! g`\"" | endif
-"""
 """ Git commit messages should always put the cursor at the beginning.
-"""
 autocmd FileType gitcommit call setpos('.', [0, 1, 1, 0])
 
 
