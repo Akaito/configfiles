@@ -281,10 +281,10 @@ set formatoptions=tcrqnljp
 autocmd FileType gitcommit let b:EditorConfig_disable = 1
 " Play nice with vim-fugitive.
 let g:EditorConfig_exclude_patterns = ['fugitive://.*']
- Use the editorconfig plugin to support a project overriding filetypes with
- an .editorconfig file.  Just have an .editorconfig file like:
- [*.m]
- vim_filetype = objc
+ "Use the editorconfig plugin to support a project overriding filetypes with
+ "an .editorconfig file.  Just have an .editorconfig file like:
+ "[*.m]
+ "vim_filetype = objc
 function! FiletypeHook(config)
     if has_key(a:config, 'vim_filetype')
         let &filetype = a:config['vim_filetype']
