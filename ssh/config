@@ -1,3 +1,11 @@
+Host foundry
+    HostName foundry.codesaru.com
+    ForwardAgent yes
+
+Host foundry2
+    HostName foundry2.codesaru.com
+    ForwardAgent yes
+
 Host rekt
     HostName home.codesaru.com
     Port     13592
