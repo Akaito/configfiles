@@ -1,6 +1,7 @@
 *.swp
 *~
 .netrwhist
+*.orig
 
 Session.vim
 
