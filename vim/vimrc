@@ -274,7 +274,6 @@ set cindent
 " Don't auto-continue comments quite so much ('ro' not present).
 " :h 'formatoptions'
 " :h fo-table
-<<<<<<< Updated upstream
 set formatoptions=tcrqnljp
 
 """"" start editorconfig
@@ -296,12 +295,8 @@ call editorconfig#AddNewHook(function('FiletypeHook'))
 """"" end editorconfig
 
 " Filetypes that are just well-known ones with a different extension.
-=======
-set formatoptions=tcrqanljp
-" Fix our formatoptions after filetype plugins mess with them.
-autocmd BufNewFile,BufRead * setlocal formatoptions=crqnlj
->>>>>>> Stashed changes
-autocmd BufNewFile,BufRead *.uplugin setlocal ft=json
+"autocmd BufNewFile,BufRead *.uplugin setlocal ft=json
+" ^ moved to vim/ftplugin/
 
 " Do not recognize octal numbers for Ctrl-A and Ctrl-X, most users find it
 " confusing.
