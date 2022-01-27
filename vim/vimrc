@@ -66,14 +66,13 @@ Plug 'https://github.com/cespare/vim-toml', {
     \ }
 
 " NeoVim-specific
-
-if !has("win32")
-" NeoVim requirement for Rust niceties
-Plug 'https://github.com/autozimu/LanguageClient-neovim', {
-    \ 'branch': 'next',
-    \ 'do':     'bash install.sh',
-    \ }
-endif
+"if !has("win32")
+"" NeoVim requirement for Rust niceties
+"Plug 'https://github.com/autozimu/LanguageClient-neovim', {
+"    \ 'branch': 'next',
+"    \ 'do':     'bash install.sh',
+"    \ }
+"endif
 Plug 'https://github.com/ncm2/ncm2'  " nice auto-complete to work with RLS, etc.
 Plug 'https://github.com/roxma/nvim-yarp'  " ncm2 requires this
 
@@ -332,7 +331,9 @@ au BufReadPost *
     \ if line("'\"") > 1 && line("'\"") <= line("$") && &ft !~# 'commit'
     \ |   exe "normal! g`\""
     \ | endif
-""" Git commit messages should always put the cursor at the beginning.
+" Force cursor back to start on Windows git commit messages.
+" Not sure why this can't be added to the above 'if'?
+autocmd FileType gitcommit call setpos('.', [0, 1, 1, 0])
 
 
 """
