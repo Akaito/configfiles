@@ -1,2 +1,0 @@
-setlocal filetype=json
-
