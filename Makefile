@@ -1,3 +1,8 @@
+SHELL = /bin/bash
+
+#####
+#=== variables ===
+
 # Linux
 uname_s := $(shell uname -s)
 # i386, x86_64, armv71
@@ -34,14 +39,16 @@ all: configs keys apt pip
 	if [ ! -f ~/.TODO.md ]; then cp TODO-output.md ~/TODO.md ; fi
 	cat ~/TODO.md
 
+#test: | $(shell which vim)
 test:
 	@#echo $(mkfile_dir)
 	@#$(info uname_m=$(uname_m))
-	echo $(dir $(abspath $(lastword $(MAKEFILE_LIST))))
-	echo $(mkfile_path)
-	echo $(mkfile_dir)
+	@echo $(mkfile_path)
+	@echo $(mkfile_dir)
+	@echo $(realpath $(mkfile_dir)ssh/config)
 
 
+#####
 #=== configs ===
 
 configs: alacritty bash git nvim ssh termux tmux vim
@@ -77,14 +84,6 @@ else
 endif
 
 
-iptables:
-	echo TODO
-	# Ensure package `iptables-persistent` is installed.
-	# Append(? or copy/ln?) iptables/rules.v4 over to /etc/iptables/rules.v4
-	# Look into rules.v6
-	# service netfilter-persistent reload
-
-
 ncmpcpp:
 ifneq ($(uname_o),Android)
 	if [ ! -d ~/.ncmpcpp ]; then mkdir ~/.ncmpcpp; fi
@@ -104,14 +103,11 @@ ifneq ($(uname_o),Android)
 endif
 
 
-rust:
-	curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
-
-
 ssh:
 	@# if regular file (not a symlink; that'd be -L), make a backup first
-	if [ -f ~/.ssh/config && ! -L ~/.ssh/config ] ; then mv ~/.ssh/config{,-makebak} ; fi
-	ln -sf $(realpath ssh/config) ~/.ssh/config
+	if [[ -f ~/.ssh/config && ! -L ~/.ssh/config ]] ; then mv ~/.ssh/config{,-makebak} ; fi
+	@# Can't symlink this one since the link's permissions will upset SSH.
+	ln -f $(realpath $(mkfile_dir)ssh/config) ~/.ssh/config
 
 
 termux:
@@ -121,7 +117,7 @@ endif
 
 
 tmux:
-	if [ -f ~/.tmux.conf && ! -L ~/.tmux.conf ] ; then mv ~/.tmux.conf ~/.tmux.conf-makebak ; fi
+	if [[ -f ~/.tmux.conf && ! -L ~/.tmux.conf ]] ; then mv ~/.tmux.conf ~/.tmux.conf-makebak ; fi
 ifeq ($(uname_o),Android)
 	cp tmux/tmux.conf ~/.tmux.conf
 else
@@ -130,7 +126,8 @@ endif
 	-if [ `command -v tmux` ]; then tmux source-file ~/.tmux.conf; fi
 
 
-vim:
+vim: install-vim config-vim
+config-vim:
 	mkdir --parents ~/.vimdid
 ifeq ($(uname_o),Android)
 	rm -rf ~/.vim
@@ -139,10 +136,20 @@ ifeq ($(uname_o),Android)
 else
 	rm -rf ~/.vim
 	rm -f ~/.vimrc
-	ln -sf $(mkfile_dir)/vim ~/.vim
-	ln -f $(mkfile_dir)/vim/vimrc ~/.vimrc
+	ln -sf $(realpath $(mkfile_dir)vim) ~/.vim
+	ln -sf $(realpath $(mkfile_dir)vim/vimrc) ~/.vimrc
 	vim -c PlugUpgrade -c PlugUpdate -c qa
 endif
+
+
+#####
+#=== security - networking ===
+iptables:
+	echo TODO
+	# Ensure package `iptables-persistent` is installed.
+	# Append(? or copy/ln?) iptables/rules.v4 over to /etc/iptables/rules.v4
+	# Look into rules.v6
+	# service netfilter-persistent reload
 
 
 #=== keys ===
@@ -154,6 +161,21 @@ key-ssh: ~/.ssh/id_ed25519 ~/.ssh/id_rsa
 
 ~/.ssh/id_%:
 	ssh-keygen -t %* -C "$(USER)@$(shell hostname)"
+
+
+#=== installations ===
+
+rust:
+	curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
+
+install-vim:
+ifeq ($(strip $(shell which vim)),)
+	os-install-vim
+endif
+
+os-install-%:
+	sudo apt-get update
+	sudo apt-get install -y $*
 
 
 #=== installations : apt ===
@@ -218,8 +240,8 @@ endif
 samba:
 ifneq ($(uname_o),Android)
 	@# if regular file (not a symlink; that'd be -L), make a backup first
-	if [ -f /etc/samba/smb.conf && ! -L /etc/samba/smb.conf ] ; then sudo mv /etc/samba/smb.conf{,-makebak}; fi
-	if [ -f /etc/samba/smbusers && ! -L /etc/samba/smbusers ] ; then sudo mv /etc/samba/smbusers{,-makebak}; fi
+	if [[ -f /etc/samba/smb.conf && ! -L /etc/samba/smb.conf ]] ; then sudo mv /etc/samba/smb.conf{,-makebak}; fi
+	if [[ -f /etc/samba/smbusers && ! -L /etc/samba/smbusers ]] ; then sudo mv /etc/samba/smbusers{,-makebak}; fi
 	sudo ln -sf $(realpath samba/smb.conf) /etc/samba/smb.conf
 	sudo ln -sf $(realpath samba/smbusers) /etc/samba/smbusers
 	# setup smb user(s)
@@ -232,12 +254,12 @@ endif
 sshd:
 ifneq ($(uname_o),Android)
 	@# if regular file (not a symlink; that'd be -L), make a backup first
-	if [ -f /etc/ssh/sshd_config && ! -L /etc/ssh/sshd_config ] ; then sudo mv /etc/ssh/sshd_config{,-makebak}; fi
-	sudo ln -sf $(realpath ssh/sshd_config) /etc/ssh/sshd_config
-	if [ -f /etc/pam.d/sshd && ! -L /etc/pam.d/sshd ] ; then sudo mv /etc/pam.d/sshd{,-makebak}; fi
-	sudo ln -sf $(realpath ssh/pam.d/sshd) /etc/pam.d/sshd
+	if [[ -f /etc/ssh/sshd_config && ! -L /etc/ssh/sshd_config ]] ; then sudo mv /etc/ssh/sshd_config{,-makebak}; fi
+	sudo ln -sf $(realpath $(mkfile_dir)ssh/sshd_config) /etc/ssh/sshd_config
+	if [[ -f /etc/pam.d/sshd && ! -L /etc/pam.d/sshd ]] ; then sudo mv /etc/pam.d/sshd{,-makebak}; fi
+	sudo ln -sf $(realpath $(mkfile_dir)ssh/pam.d/sshd) /etc/pam.d/sshd
 	@# per-user
-	if [ -f ~/.ssh/authorized_keys && ! -L /etc/ssh/sshd_config ] ; then sudo mv ~/.ssh/authorized_keys{,-makebak}; fi
-	sudo ln -sf $(realpath ssh/authorized_keys) ~/.ssh/authorized_keys
+	if [[ -f ~/.ssh/authorized_keys && ! -L /etc/ssh/sshd_config ]] ; then sudo mv ~/.ssh/authorized_keys{,-makebak}; fi
+	sudo ln -sf $(realpath $(mkfile_dir)ssh/authorized_keys) ~/.ssh/authorized_keys
 endif
 
