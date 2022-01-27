@@ -294,6 +294,9 @@ endfunction
 call editorconfig#AddNewHook(function('FiletypeHook'))
 """"" end editorconfig
 
+" Filetypes that are just well-known ones with a different extension.
+autocmd BufNewFile,BufRead *.uplugin setlocal ft=json
+
 " Do not recognize octal numbers for Ctrl-A and Ctrl-X, most users find it
 " confusing.
 set nrformats-=octal
@@ -329,7 +332,6 @@ au BufReadPost *
     \ |   exe "normal! g`\""
     \ | endif
 """ Git commit messages should always put the cursor at the beginning.
-"autocmd FileType gitcommit call setpos('.', [0, 1, 1, 0])
 
 
 """
