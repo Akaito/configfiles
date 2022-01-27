@@ -323,11 +323,13 @@ endif
 
 """
 """ Jump to last position when opening a file.
-""" Affects git commit messages as well.
-""" https://unix.stackexchange.com/questions/23335/how-to-open-a-file-in-the-last-closed-position-in-vi
-au BufReadPost * if line("'\"") > 1 && line("'\"") <= line("$") | exe "normal! g`\"" | endif
+""" Taken/updated from `:h last-position-jump` (aka? `restore-cursor`).
+au BufReadPost *
+    \ if line("'\"") > 1 && line("'\"") <= line("$") && &ft !~# 'commit'
+    \ |   exe "normal! g`\""
+    \ | endif
 """ Git commit messages should always put the cursor at the beginning.
-autocmd FileType gitcommit call setpos('.', [0, 1, 1, 0])
+"autocmd FileType gitcommit call setpos('.', [0, 1, 1, 0])
 
 
 """
