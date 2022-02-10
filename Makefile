@@ -26,6 +26,7 @@ mkfile_dir  := $(dir $(abspath $(lastword $(MAKEFILE_LIST))))
 	alacritty bash git nvim termux tmux vim \
 	keys \
 	apt apt-install apt-beyondcompare apt-syncthing \
+	aws \
 	rust \
 	pip pip3-install \
 	iptables \
@@ -191,9 +192,10 @@ apt-install:
 ifneq ($(uname_o),Android)
 	sudo apt-get update
 	sudo apt-get install \
-		vim git lynx \
-		curl wget screen tmux \
+		vim git lynx gpg \
+		curl wget screen tmux unzip \
 		syncthing keepass2 \
+		rclone \
 		docker \
 		clang \
 		cmake \
@@ -221,6 +223,18 @@ ifneq ($(uname_o),Android)
 	systemctl --user start syncthing.service
 endif
 
+
+#=== installations : aws ===
+
+aws:
+	gpg --import signatures/aws-cli-team.gpg
+	mkdir -p ./temp
+	curl --no-progress-meter "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip.sig" -o ./temp/awscliv2.zip.sig
+	curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o ./temp/awscliv2.zip
+	gpg --verify ./temp/awscliv2.zip.sig ./temp/awscliv2.zip
+	unzip -od ./temp/ ./temp/awscliv2.zip
+	sudo ./temp/aws/install -u
+	rm -rf ./temp
 
 #=== installations : pip ===
 
