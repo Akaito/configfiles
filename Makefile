@@ -206,10 +206,12 @@ endif
 
 apt-beyondcompare:
 ifeq ($(uname_m),x86_64)
-	wget http://www.scootersoftware.com/bcompare-4.2.9.23626_amd64.deb
-	sudo apt-get install gdebi-core
-	sudo gdebi bcompare-4.2.9.23626_amd64.deb
-	rm bcompare-4.2.9.23626_amd64.deb
+	mkdir -p ./temp
+	curl -L https://www.scootersoftware.com/bcompare-4.4.1.26165_amd64.deb -o ./temp/bc4.deb
+	sudo apt-get install \
+		gdebi-core
+	sudo gdebi ./temp/bc4.deb
+	rm -rf ./temp
 else
 	@echo WARN: BeyondCompare install not supported on this architecture.
 endif
@@ -221,6 +223,8 @@ apt-syncthing:
 ifneq ($(uname_o),Android)
 	systemctl --user enable syncthing.service
 	systemctl --user start syncthing.service
+	sudo apt-get install \
+		syncthing-gtk
 endif
 
 
