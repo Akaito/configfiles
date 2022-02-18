@@ -43,9 +43,10 @@ all: configs keys apt pip
 test:
 	@#echo $(mkfile_dir)
 	@#$(info uname_m=$(uname_m))
-	@echo $(mkfile_path)
-	@echo $(mkfile_dir)
-	@echo $(realpath $(mkfile_dir)ssh/config)
+	@echo "mkfile_path: [$(mkfile_path)]"
+	@echo "mkfile_dir: [$(mkfile_dir)]"
+	@echo "realpath of dir-ssh/config: [$(realpath $(mkfile_dir)ssh/config)]"
+	@echo "realpath of dir-/ssh/config: [$(realpath $(mkfile_dir)/ssh/config)]"
 
 
 #####
@@ -117,13 +118,18 @@ endif
 
 
 tmux:
-	if [[ -f ~/.tmux.conf && ! -L ~/.tmux.conf ]] ; then mv ~/.tmux.conf ~/.tmux.conf-makebak ; fi
+	if [[ -f ~/.tmux.conf && ! -L ~/.tmux.conf && ! -f ~/.tmux.conf-makebak ]] ; then mv ~/.tmux.conf ~/.tmux.conf-makebak ; fi
+	if [[ -d ~/.tmux && ! -L ~/.tmux && ! -d ~/.tmux-makebak ]]; then mv ~/.tmux ~/.tmux-makebak ; fi
+	-git submodule update --init --recursive $(realpath $(mkfile_dir)tmux/tmux/plugins)
 ifeq ($(uname_o),Android)
+	cp -r tmux/tmux ~/.tmux
 	cp tmux/tmux.conf ~/.tmux.conf
 else
-	ln -sf $(realpath tmux/tmux.conf) ~/.tmux.conf
+	ln -sf $(realpath $(mkfile_dir)tmux/tmux) ~/.tmux
+	ln -sf $(realpath $(mkfile_dir)tmux/tmux.conf) ~/.tmux.conf
 endif
 	-if [ `command -v tmux` ]; then tmux source-file ~/.tmux.conf; fi
+	-#if [ `command -v tmux` ]; then tmux source ~/.tmux.conf; fi
 
 
 vim: install-vim config-vim
