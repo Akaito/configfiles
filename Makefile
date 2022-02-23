@@ -129,7 +129,6 @@ else
 	ln -sf $(realpath $(mkfile_dir)tmux/tmux.conf) ~/.tmux.conf
 endif
 	-if [ `command -v tmux` ]; then tmux source-file ~/.tmux.conf; fi
-	-#if [ `command -v tmux` ]; then tmux source ~/.tmux.conf; fi
 
 
 vim: install-vim config-vim
