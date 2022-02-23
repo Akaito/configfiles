@@ -6,38 +6,25 @@ Host foundry2
     HostName foundry2.codesaru.com
     ForwardAgent yes
 
-Host rekt
-    HostName home.codesaru.com
-    Port     13592
-    User     chris
+Host router.lan
+    HostName router.lan
+    Port 13590
     ForwardAgent yes
-    ForwardX11   yes
+    ForwardX11 no
+    IdentityFile ~/.ssh/id_rsa
 
-Host rekt.lan
-    HostName 192.168.1.2
-    User     chris
+Host wifi.lan
+    HostName wifi.lan
     ForwardAgent yes
-    ForwardX11   yes
+    ForwardX11 no
+    IdentityFile ~/.ssh/id_rsa
 
+Host homeassistant.local
+    User root
 
-Host skatolo
-    HostName home.codesaru.com
-    Port     29531
-    User     chris
+Host bell.codesaru.com
+    Port 13590
     ForwardAgent yes
-    ForwardX11   yes
-
-Host skatolo.lan
-    HostName 192.168.1.12
-    User     chris
-    ForwardAgent yes
-    ForwardX11   yes
-
-
-Host tiamat.lan
-    HostName 192.168.1.11
-    Port     8022
-    User     chris
-    ForwardAgent yes
-    ForwardX11   yes
+    ForwardX11 no
+    IdentityFile ~/.ssh/id_rsa
 
