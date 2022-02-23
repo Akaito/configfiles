@@ -5,6 +5,7 @@
 
 Session.vim
 
-tmux/tmux/plugins
+tmux/tmux/plugins/*
+!tmux/tmux/plugins/tpm
 vim/plugged
 
