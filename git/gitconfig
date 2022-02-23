@@ -2,6 +2,12 @@
 	email = chris@codesaru.com
 	name = Chris Barrett
 
+[init]
+    defaultBranch = main
+
+[pull]
+    ff = only
+
 [core]
 	editor = vim
 
