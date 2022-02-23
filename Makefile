@@ -35,7 +35,7 @@ help:
 	@echo 'Use `make <tab><tab>` to see what options are available.'
 
 
-all: configs keys apt pip
+all: configs keys apt
 	if [ ! -f ~/.TODO.md ]; then cp TODO-output.md ~/TODO.md ; fi
 	cat ~/TODO.md
 
@@ -225,7 +225,7 @@ endif
 
 #=== installations : pip ===
 
-pip: pip2-install pip3-install
+pip: pip3-install
 
 pip2-install:
 ifneq ($(uname_o),Android)
@@ -237,7 +237,7 @@ ifneq ($(uname_o),Android)
 	sudo apt install python3-pip
 	sudo pip3 install --upgrade pip
 	sudo pip3 install awscli
-	aws configure
+	@#aws configure
 endif
 
 
