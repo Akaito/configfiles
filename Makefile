@@ -56,10 +56,10 @@ configs: alacritty bash git nvim ssh termux tmux vim
 
 alacritty:
 ifneq ($(uname_o),Android)
-	mkdir --parents ~/.config
 	if [ -d ~/.config/alacritty && ! -d ~/.config/alacritty-makebak ]; then mv ~/.config/alacritty{,-makebak}; fi
 	rm -rf ~/.config/alacritty
-	ln -sf $(realpath alacritty) ~/.config/alacritty
+	mkdir --parents ~/.config/alacritty
+	ln -sf $(realpath $(mkfile_dir)/alacritty/alacritty.yml) ~/.config/alacritty/alacritty.yml
 endif  # neq Android
 
 bash:
