@@ -183,6 +183,13 @@ scrolling:
   # it is recommended to set `use_thin_strokes` to `false`.
   #use_thin_strokes: true
 
+  # Use built-in font for box drawing characters.
+  #
+  # If `true`, Alacritty will use a custom built-in font for box drawing
+  # characters (Unicode points 2500 - 259f).
+  #
+  #builtin_box_drawing: true
+
 # If `true`, bold text is drawn using the bright color variants.
 #draw_bold_text_with_bright_colors: false
 
@@ -444,8 +451,8 @@ cursor:
 shell:
   program: /usr/bin/tmux
   args:
-    #- -2 # force tmux to assume the terminal supports 256-color mode
     - -u # force UTF-8 in tmux
+    #- -2 # force tmux to assume the terminal supports 256-color mode
 
 # Startup directory
 #
@@ -453,18 +460,11 @@ shell:
 # directory of the parent process will be used.
 #working_directory: None
 
-# WinPTY backend (Windows only)
-#
-# Alacritty defaults to using the newer ConPTY backend if it is available,
-# since it resolves a lot of bugs and is quite a bit faster. If it is not
-# available, the the WinPTY backend will be used instead.
-#
-# Setting this option to `true` makes Alacritty use the legacy WinPTY backend,
-# even if the ConPTY backend is available.
-#winpty_backend: false
-
 # Send ESC (\x1b) before characters when alt is pressed.
 #alt_send_esc: true
+
+# Offer IPC using `alacritty msg` (unix only)
+#ipc_socket: true
 
 #mouse:
   # Click settings
@@ -551,8 +551,9 @@ shell:
 #
 # - `mods` (see key bindings)
 #mouse_bindings:
-#  - { mouse: Right,             action: ExpandSelection }
-#  - { mouse: Middle, mode: ~Vi, action: PasteSelection  }
+#  - { mouse: Right,                 action: ExpandSelection }
+#  - { mouse: Right,  mods: Control, action: ExpandSelection }
+#  - { mouse: Middle, mode: ~Vi,     action: PasteSelection  }
 
 # Key bindings
 #
@@ -621,6 +622,8 @@ shell:
 #   - ToggleFullscreen
 #   - SpawnNewInstance
 #       Spawn a new instance of Alacritty.
+#   - CreateNewWindow
+#       Create a new Alacritty window from the current process.
 #   - ClearLogNotice
 #       Clear Alacritty's UI warning and error notice.
 #   - ClearSelection
@@ -894,6 +897,9 @@ key_bindings:
   # Print all received window events.
   #print_events: false
 
+  # Highlight window damage information.
+  #highlight_damage: false
+
 # From https://github.com/alacritty/alacritty/wiki/Color-schemes#monokai
 # Colors (Monokai Dark)
 colors:
@@ -908,7 +914,7 @@ colors:
    red:     '#F92672'
    green:   '#A6E22E'
    yellow:  '#F4BF75'
-   blue:    '#66D9EF'
+   blue:    '#6794ef'  # used to be 66D9EF
    magenta: '#AE81FF'
    cyan:    '#A1EFE4'
    white:   '#F8F8F2'
