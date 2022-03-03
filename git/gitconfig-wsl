@@ -20,8 +20,10 @@
     co = checkout
     fe = fetch --prune
     fem = !"git fetch --prune && git merge --ff-only origin/$(git brc)"
+    ff = merge --ff-only
     s = status -s --ignore-submodules
     st = status -s --branch
+    subup = submodule update --init --recursive
 	tool = BCompare
 [difftool "BCompare"]
     #path = /mnt/c/Program Files/Beyond Compare 4/BCompare.exe
