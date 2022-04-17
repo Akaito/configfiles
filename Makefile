@@ -13,17 +13,20 @@ uname_o := $(shell uname -o)
 uname_r := $(shell uname -r)
 # Use this way later:
 # ifneq (,$(findstring Microsoft,$(uname_r)))  # if WSL
+desktop_env := $(strip ${XDG_CURRENT_DESKTOP})
 
 # https://stackoverflow.com/questions/18136918/how-to-get-current-relative-directory-of-your-makefile
 # https://www.gnu.org/software/make/manual/html_node/File-Name-Functions.html
 mkfile_path := $(abspath $(lastword $(MAKEFILE_LIST)))
 mkfile_dir  := $(dir $(abspath $(lastword $(MAKEFILE_LIST))))
 
+OBSIDIAN_VERSION := 0.14.5
+
 
 .PHONY: help \
 	all \
 	configs \
-	alacritty bash git nvim termux tmux vim \
+	alacritty bash git nvim obsidian termux tmux vim \
 	keys \
 	apt apt-install apt-beyondcompare apt-syncthing \
 	aws \
@@ -44,10 +47,13 @@ all: configs keys apt
 test:
 	@#echo $(mkfile_dir)
 	@#$(info uname_m=$(uname_m))
-	@echo "mkfile_path: [$(mkfile_path)]"
-	@echo "mkfile_dir: [$(mkfile_dir)]"
-	@echo "realpath of dir-ssh/config: [$(realpath $(mkfile_dir)ssh/config)]"
-	@echo "realpath of dir-/ssh/config: [$(realpath $(mkfile_dir)/ssh/config)]"
+	echo $(shell echo ${XDG_CURRENT_DESKTOP})
+	@echo "[$(desktop_env)]"
+ifneq ($(desktop_env),)
+	@echo 'is desktop_env'
+else
+	@echo 'is NOT desktop_env'
+endif
 
 
 #####
@@ -103,6 +109,26 @@ ifneq ($(uname_o),Android)
 	rm -rf ~/.config/nvim
 	ln -sf $(realpath nvim) ~/.config/nvim
 endif
+
+
+obsidian: ~/.local/share/applications/Obsidian.desktop
+	@echo Obsidian done.
+
+~/.local/share/applications/Obsidian.desktop: ~/apps/obsidian/Obsidian.AppImage
+	@mkdir -p $(HOME)/.local/share/applications
+	@ln -sf $(realpath linux-de/home/.local/share/applications/Obsidian.desktop) $(HOME)/.local/share/applications/Obsidian.desktop
+
+~/apps/obsidian/Obsidian.AppImage: ~/apps/obsidian/Obsidian-$(OBSIDIAN_VERSION).AppImage
+	@ln -sf $< $@
+
+~/apps/obsidian/Obsidian-$(OBSIDIAN_VERSION).AppImage:
+	@mkdir -p ~/apps/obsidian
+	curl --progress-meter -Lo $@ 'https://github.com/obsidianmd/obsidian-releases/releases/download/v$(OBSIDIAN_VERSION)/Obsidian-$(OBSIDIAN_VERSION).AppImage'
+	@chmod u+x $@
+
+
+rust:
+	curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
 
 
 ssh:
@@ -223,8 +249,10 @@ apt-syncthing:
 ifneq ($(uname_o),Android)
 	systemctl --user enable syncthing.service
 	systemctl --user start syncthing.service
+ifneq ($(desktop_env),)
 	sudo apt-get install \
 		syncthing-gtk
+endif
 endif
 
 
