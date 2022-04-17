@@ -112,19 +112,27 @@ endif
 
 
 obsidian: ~/.local/share/applications/Obsidian.desktop
+ifneq ($(uname_o),Android)
 	@echo Obsidian done.
+endif
 
 ~/.local/share/applications/Obsidian.desktop: ~/apps/obsidian/Obsidian.AppImage
+ifneq ($(uname_o),Android)
 	@mkdir -p $(HOME)/.local/share/applications
 	@ln -sf $(realpath linux-de/home/.local/share/applications/Obsidian.desktop) $(HOME)/.local/share/applications/Obsidian.desktop
+endif
 
 ~/apps/obsidian/Obsidian.AppImage: ~/apps/obsidian/Obsidian-$(OBSIDIAN_VERSION).AppImage
+ifneq ($(uname_o),Android)
 	@ln -sf $< $@
+endif
 
 ~/apps/obsidian/Obsidian-$(OBSIDIAN_VERSION).AppImage:
+ifneq ($(uname_o),Android)
 	@mkdir -p ~/apps/obsidian
 	curl --progress-meter -Lo $@ 'https://github.com/obsidianmd/obsidian-releases/releases/download/v$(OBSIDIAN_VERSION)/Obsidian-$(OBSIDIAN_VERSION).AppImage'
 	@chmod u+x $@
+endif
 
 
 rust:
