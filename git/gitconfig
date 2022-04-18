@@ -26,7 +26,7 @@
     co = checkout
     st = status -s
     subup = submodule update --init --recursive
-    mff = merge --ff-only
+    ff = merge --ff-only
 
 #[diff]
 #	tool = bc3
