@@ -63,7 +63,7 @@ configs: alacritty bash git nvim ssh termux tmux vim
 
 alacritty:
 ifneq ($(uname_o),Android)
-	if [ -d ~/.config/alacritty && ! -d ~/.config/alacritty-makebak ]; then mv ~/.config/alacritty{,-makebak}; fi
+	if [[ -d ~/.config/alacritty && ! -d ~/.config/alacritty-makebak ]]; then mv ~/.config/alacritty{,-makebak}; fi
 	rm -rf ~/.config/alacritty
 	mkdir --parents ~/.config/alacritty
 	ln -sf $(realpath $(mkfile_dir)/alacritty/alacritty.yml) ~/.config/alacritty/alacritty.yml
