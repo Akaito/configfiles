@@ -33,6 +33,7 @@ OBSIDIAN_VERSION := 0.14.5
 	rust \
 	pip pip3-install \
 	iptables \
+	redshift \
 	samba ssh sshd
 
 help:
@@ -133,6 +134,14 @@ ifneq ($(uname_o),Android)
 	curl --progress-meter -Lo $@ 'https://github.com/obsidianmd/obsidian-releases/releases/download/v$(OBSIDIAN_VERSION)/Obsidian-$(OBSIDIAN_VERSION).AppImage'
 	@chmod u+x $@
 endif
+
+
+redshift: apt-install-redshift ~/.config/redshift.conf
+
+~/.config/redshift.conf:
+	@mkdir -p ~/.config
+	@if [[ -f ~/.ssh/config && ! -L ~/.ssh/config ]] ; then mv ~/.ssh/config{,-makebak} ; fi
+	@ln -sf $(realpath $(mkfile_dir)ssh/config) $@
 
 
 rust:
@@ -237,6 +246,9 @@ ifneq ($(uname_o),Android)
 		libsdl2-doc \
 		byzanz
 endif
+
+apt-install-redshift:
+	sudo apt-get install -y redshift
 
 apt-beyondcompare:
 ifeq ($(uname_m),x86_64)
