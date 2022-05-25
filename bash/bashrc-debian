@@ -141,11 +141,6 @@ EDITOR=vim
 #    PATH="$PATH:/home/$USER/.cargo/bin"
 #fi
 
-# For Loading the SSH key (SSH agent)
-# https://esc.sh/blog/ssh-agent-windows10-wsl2/
-#/usr/bin/keychain --nogui $HOME/.ssh/id_rsa
-#source $HOME/.keychain/$HOST-sh
-
 # Default-allow `less` to interpret color.
 export LESS=-R
 

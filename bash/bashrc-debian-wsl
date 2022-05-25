@@ -68,7 +68,7 @@ if [ "$color_prompt" = yes ]; then
 
 	# monokai attempt
 	#PS1="\[$(tput sgr0)\]\[$(tput bold)\]\[$(tput setaf 166)\][\[$(tput setaf 3)\]\u\[$(tput setaf 166)\]@\[$(tput setaf 3)\]\h \[$(tput setaf 135)\]\W\[$(tput setaf 166)\]]\[$(tput setaf 2)\]\\$ \[$(tput sgr0)\]\[$(tput sgr0)\]"
-    LONGPROMPT="\[\033[00m\]\[$(tput setaf 3)\]${debian_chroot:+($debian_chroot)}\u@wsl2-ubuntu:\w\$\[$(tput sgr0)\] "
+    LONGPROMPT="\[\033[00m\]\[$(tput setaf 3)\]${debian_chroot:+($debian_chroot)}\u@\h:\w\$\[$(tput sgr0)\] "
     SHORTPROMPT="\[\033[00m\]\[$(tput setaf 3)\]${debian_chroot:+($debian_chroot)}\W\$\[$(tput sgr0)\] "
     PS1=$LONGPROMPT
 else  # no colors
@@ -132,19 +132,23 @@ if ! shopt -oq posix; then
 fi
 
 
-# From https://github.com/rust-lang/cargo/issues/7557#issuecomment-791320960 for WSL
-export BROWSER='~/open_browser.sh'
 
 # ChrisB custom stuff
 EDITOR=vim
 # Add Rust programs, such as installed via `cargo install exa`, to path.
-if ! echo $PATH | grep -q /home/$USER/.cargo/bin
-then
-    PATH="$PATH:/home/$USER/.cargo/bin"
-fi
+#if ! echo $PATH | grep -q /home/$USER/.cargo/bin
+#then
+#    PATH="$PATH:/home/$USER/.cargo/bin"
+#fi
 
-# execute previous or most-recent-starting-with-pattern commands
+# Default-allow `less` to interpret color.
+export LESS=-R
+
+# Execute previous or most-recent-starting-with-pattern commands.
 alias r='fc -s'
+# Terminal print-out of weather forecast.  `forecast Seattle` to change location.
+alias forecast='~/configfiles/scripts/weather.sh'
+alias weather='~/configfiles/scripts/weather.sh'
 
 
 # add Pulumi to the PATH
@@ -153,4 +157,23 @@ alias r='fc -s'
 # add some firewalk_server binaries to the PATH
 #export PATH=$PATH:$HOME/firewalk_server/src/c/bin
 
-. "$HOME/.cargo/env"
+if [ -f $HOME/.cargo/env ]; then
+    . "$HOME/.cargo/env"
+fi
+
+#####
+# WSL / WSL2 stuff
+if [[ $(uname -r) =~ *microsoft* ]]; then
+    LONGPROMPT="\[\033[00m\]\[$(tput setaf 3)\]${debian_chroot:+($debian_chroot)}\u@$(uname -n):\w\$\[$(tput sgr0)\] "
+    PS1=$LONGPROMPT
+
+    # For Loading the SSH key (SSH agent)
+    # https://esc.sh/blog/ssh-agent-windows10-wsl2/
+    #/usr/bin/keychain --nogui $HOME/.ssh/id_rsa
+    #source $HOME/.keychain/$HOST-sh
+
+    # From https://github.com/rust-lang/cargo/issues/7557#issuecomment-791320960 for WSL
+    export BROWSER='~/open_browser.sh'
+fi
+#####
+
