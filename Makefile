@@ -76,7 +76,7 @@ ifeq ($(uname_o),Android)
 else
 	@# bashrc
 	@if [ -f ~/.bashrc ]; then mv ~/.bashrc ~/.bashrc-makebak; fi
-	ln bash/bashrc-debian ~/.bashrc
+	ln -sf $(realpath bash/bashrc-debian) ~/.bashrc
 	@# dircolors (colors 'ls' and such output)
 	@if [ -f ~/.dircolors ]; then mv ~/.dircolors ~/.dircolors-makebak; fi
 	ln bash/dircolors ~/.dircolors

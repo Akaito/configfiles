@@ -160,3 +160,28 @@ alias weather='~/configfiles/scripts/weather.sh'
 if [ -f $HOME/.cargo/env ]; then
     . "$HOME/.cargo/env"
 fi
+
+#####
+# WSL / WSL2 stuff
+if [[ "$(uname -r)" =~ microsoft ]]; then
+    LONGPROMPT="\[\033[00m\]\[$(tput setaf 3)\]${debian_chroot:+($debian_chroot)}\u@$(uname -n):\w\$\[$(tput sgr0)\] "
+    PS1=$LONGPROMPT
+
+    # For Loading the SSH key (SSH agent)
+    # https://esc.sh/blog/ssh-agent-windows10-wsl2/
+    #/usr/bin/keychain --nogui $HOME/.ssh/id_rsa
+    #source $HOME/.keychain/$HOST-sh
+
+    # From https://github.com/rust-lang/cargo/issues/7557#issuecomment-791320960 for WSL
+    export BROWSER='~/open_browser.sh'
+
+    # WSL really likes to start in system32.  Change to our home dir instead.
+    if [[ "$(pwd)" =~ system32 ]]; then
+        cd ~
+    fi
+
+    # Work stuff
+    alias p4='/mnt/c/Program\ Files/Perforce/p4.exe'
+fi
+#####
+
