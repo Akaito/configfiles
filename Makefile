@@ -79,7 +79,7 @@ else
 	ln -sf $(realpath bash/bashrc-debian) ~/.bashrc
 	@# dircolors (colors 'ls' and such output)
 	@if [ -f ~/.dircolors ]; then mv ~/.dircolors ~/.dircolors-makebak; fi
-	ln bash/dircolors ~/.dircolors
+	ln -sf $(realpath bash/dircolors) ~/.dircolors
 endif
 	. ~/.bashrc
 
