@@ -142,7 +142,7 @@ EDITOR=vim
 #fi
 
 # Default-allow `less` to interpret color.
-export LESS=-R
+#export LESS=-R
 
 # Execute previous or most-recent-starting-with-pattern commands.
 alias r='fc -s'
@@ -173,7 +173,7 @@ if [[ "$(uname -r)" =~ microsoft ]]; then
     #source $HOME/.keychain/$HOST-sh
 
     # From https://github.com/rust-lang/cargo/issues/7557#issuecomment-791320960 for WSL
-    export BROWSER='~/open_browser.sh'
+    #export BROWSER='~/open_browser.sh'
 
     # WSL really likes to start in system32.  Change to our home dir instead.
     if [[ "$(pwd)" =~ system32 ]]; then
