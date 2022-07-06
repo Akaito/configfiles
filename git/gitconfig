@@ -24,6 +24,7 @@
     brc = !"git branch | grep '^\\*' | cut -c 3- -"
     ci = commit
     co = checkout
+    fe = fetch
     st = status -s
     subup = submodule update --init --recursive
     ff = merge --ff-only
