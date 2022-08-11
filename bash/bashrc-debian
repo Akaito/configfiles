@@ -150,6 +150,8 @@ alias r='fc -s'
 alias forecast='~/configfiles/scripts/weather.sh'
 alias weather='~/configfiles/scripts/weather.sh'
 
+export GPG_TTY="$(tty)"
+
 
 # add Pulumi to the PATH
 #export PATH=$PATH:$HOME/.pulumi/bin
