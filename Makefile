@@ -270,6 +270,8 @@ apt-tier1: apt-tier0
 		vim
 
 apt-tier2: apt-tier1
+	sudo $(APT_GET) install -y \
+		manpages-dev manpages-posix-dev
 ifneq ($(uname_o),Android) # non-smartphone stuff
 	sudo $(APT_GET) install -y \
 		docker \
