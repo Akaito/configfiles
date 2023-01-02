@@ -242,7 +242,7 @@ ifeq ($(strip $(shell which vim)),)
 endif
 
 os-install-%: apt-update
-	sudo apt-get install -y $*
+	sudo $(APT_GET) install -y $*
 
 
 #=== installations : apt ===
@@ -271,12 +271,12 @@ apt-tier1: apt-tier0
 
 apt-tier2: apt-tier1
 ifneq ($(uname_o),Android) # non-smartphone stuff
-	sudo apt-get install -y \
+	sudo $(APT_GET) install -y \
 		docker \
 		rclone
 ifneq ($(DISPLAY),) # desktop stuff
 	# byzanz: small screencast creator
-	sudo apt-get install -y \
+	sudo $(APT_GET) install -y \
 		flatpak \
 		clang cmake \
 		libsdl2-dev libsdl2-gfx-dev libsdl2-ttf-dev libsdl2-doc \
@@ -286,7 +286,7 @@ endif
 
 #=== installations : redshift ===
 apt-install-redshift:
-	sudo apt-get install -y redshift
+	sudo $(APT_GET) install -y redshift
 
 #=== installations : aws ===
 aws: apt-gpg
@@ -308,7 +308,7 @@ ifneq ($(DISPLAY),)        # 	graphical-only {
 ifeq ($(uname_m),x86_64)   # 		64-bit
 	mkdir -p ./temp
 	curl -L https://www.scootersoftware.com/bcompare-4.4.1.26165_amd64.deb -o ./temp/bc4.deb
-	sudo apt-get install \
+	sudo $(APT_GET) install \
 		gdebi-core
 	sudo gdebi ./temp/bc4.deb
 	rm -rf ./temp
@@ -326,7 +326,7 @@ ifneq ($(uname_o),Android) # not-Android {
 	systemctl --user enable syncthing.service
 	systemctl --user start syncthing.service
 ifneq ($(desktop_env),)    # 	only desktop environments (DEs) {
-	sudo apt-get install \
+	sudo $(APT_GET) install \
 		syncthing-gtk
 endif                      # 	} end only-DEs
 endif                      # } end non-Android
