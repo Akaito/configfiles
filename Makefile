@@ -1,4 +1,5 @@
 SHELL = /bin/bash
+APT_GET = apt-get --no-allow-insecure-repositories --error-on=any --show-progress
 
 #####
 #=== variables ===
@@ -28,13 +29,15 @@ OBSIDIAN_VERSION := 0.14.5
 	configs \
 	alacritty bash git nvim obsidian termux tmux vim \
 	keys \
-	apt apt-install apt-beyondcompare apt-syncthing \
+	apt apt-install apt-tier0 apt-tier1 apt-tier2 \
+	beyondcompare apt-gpg apt-syncthing apt-tmux \
 	aws \
 	rust \
-	pip pip3-install \
+	pip pip2-install pip3-install \
 	iptables \
 	redshift \
-	samba ssh sshd
+	samba ssh sshd \
+	flatpak flatpak-install-obsidian
 
 help:
 	@echo 'Use `make <tab><tab>` to see what options are available.'
@@ -56,13 +59,19 @@ else
 	@echo 'is NOT desktop_env'
 endif
 
+	@echo "mkfile_path: [$(mkfile_path)]"
+	@echo "mkfile_dir: [$(mkfile_dir)]"
+	@echo "realpath of dir-ssh/config: [$(realpath $(mkfile_dir)ssh/config)]"
+	@echo "realpath of dir-/ssh/config: [$(realpath $(mkfile_dir)/ssh/config)]"
+	@if [[ $$(dpkg -s some_package_name 2>/dev/null | grep 'Status: install ok installed') ]]; then echo 'true'; fi
+
 
 #####
 #=== configs ===
 
 configs: alacritty bash git nvim ssh termux tmux vim
 
-alacritty:
+alacritty: tmux
 ifneq ($(uname_o),Android)
 	if [[ -d ~/.config/alacritty && ! -d ~/.config/alacritty-makebak ]]; then mv ~/.config/alacritty{,-makebak}; fi
 	rm -rf ~/.config/alacritty
@@ -175,6 +184,16 @@ endif
 	-if [ `command -v tmux` ]; then tmux source-file ~/.tmux.conf; fi
 
 
+# https://docs.syncthing.net/users/autostart.html?highlight=daemon#linux
+# recall default Web GUI address of 127.0.0.1:8384
+syncthing: config-syncthing
+config-syncthing:
+ifneq ($(uname_o),Android)
+	@systemctl --user enable syncthing.service
+	@systemctl --user start syncthing.service
+endif
+
+
 vim: install-vim config-vim
 config-vim:
 	mkdir --parents ~/.vimdid
@@ -222,74 +241,111 @@ ifeq ($(strip $(shell which vim)),)
 	os-install-vim
 endif
 
-os-install-%:
-	sudo apt-get update
+os-install-%: apt-update
 	sudo apt-get install -y $*
 
 
 #=== installations : apt ===
 
-apt: apt-install apt-beyondcompare apt-syncthing
+apt: apt-install beyondcompare apt-syncthing
 
-apt-install:
-ifneq ($(uname_o),Android)
-	sudo apt-get update
-	sudo apt-get install \
-		vim git lynx gpg \
-		curl wget screen tmux unzip \
-		syncthing keepass2 \
-		rclone \
+apt-install: apt-tier2 beyondcompare
+
+apt-update:
+	last_update := $(shell stat -c %Y /var/cache/apt-pkgcache.bin)
+	now := $(shell date +%s)
+	if [ $(shell $((now - last_update
+	@sudo $(APT_GET) update
+
+apt-tier0: apt-update
+	sudo $(APT_GET) install -y \
+		curl wget \
+		screen \
+		gpg
+
+apt-tier1: apt-tier0
+	sudo $(APT_GET) install -y \
+		git lynx unzip \
+		tmux \
+		vim
+
+apt-tier2: apt-tier1
+ifneq ($(uname_o),Android) # non-smartphone stuff
+	sudo apt-get install -y \
 		docker \
-		clang \
-		cmake \
-		libsdl2-dev libsdl2-gfx-dev libsdl2-ttf-dev \
-		libsdl2-doc \
-		byzanz
+		rclone
+ifneq ($(DISPLAY),) # desktop stuff
+	# byzanz: small screencast creator
+	sudo apt-get install -y \
+		flatpak \
+		clang cmake \
+		libsdl2-dev libsdl2-gfx-dev libsdl2-ttf-dev libsdl2-doc \
+		keepass2 xdotool syncthing
+endif
 endif
 
+#=== installations : redshift ===
 apt-install-redshift:
 	sudo apt-get install -y redshift
 
-apt-beyondcompare:
-ifeq ($(uname_m),x86_64)
+#=== installations : aws ===
+aws: apt-gpg
+	gpg --import signatures/aws-cli-team.gpg
+	@mkdir -p ./temp
+	@curl --no-progress-meter "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip.sig" -o ./temp/awscliv2.zip.sig
+	curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o ./temp/awscliv2.zip
+	gpg --verify ./temp/awscliv2.zip.sig ./temp/awscliv2.zip
+	@unzip -qod ./temp/ ./temp/awscliv2.zip
+	sudo ./temp/aws/install -u
+	@rm -rf ./temp
+
+
+#=== installations : beyondcompare ===
+beyondcompare: apt-install-beyondcompare
+apt-install-beyondcompare:
+ifneq ($(uname_o),Android) # non-Android {
+ifneq ($(DISPLAY),)        # 	graphical-only {
+ifeq ($(uname_m),x86_64)   # 		64-bit
 	mkdir -p ./temp
 	curl -L https://www.scootersoftware.com/bcompare-4.4.1.26165_amd64.deb -o ./temp/bc4.deb
 	sudo apt-get install \
 		gdebi-core
 	sudo gdebi ./temp/bc4.deb
 	rm -rf ./temp
-else
+else                       # 		32-bit
 	@echo WARN: BeyondCompare install not supported on this architecture.
-endif
+endif                      # 		} end 32-or-64-bit
+endif                      # 	} end graphical-only
+endif                      # } end non-Android
 
 # not really an "apt-*" target; may rename later
 # https://docs.syncthing.net/users/autostart.html?highlight=daemon#linux
 # recall default Web GUI address of 127.0.0.1:8384
 apt-syncthing:
-ifneq ($(uname_o),Android)
+ifneq ($(uname_o),Android) # not-Android {
 	systemctl --user enable syncthing.service
 	systemctl --user start syncthing.service
-ifneq ($(desktop_env),)
+ifneq ($(desktop_env),)    # 	only desktop environments (DEs) {
 	sudo apt-get install \
 		syncthing-gtk
-endif
-endif
+endif                      # 	} end only-DEs
+endif                      # } end non-Android
 
 
-#=== installations : aws ===
+#=== installations : flatpak ===
+apt-install-%: apt-update
+	@package := $(subst apt-install-,,$*)
+	if [[ $(shell dpkg -s $(package) 2>/dev/null | grep 'Status: install ok installed') ]]; then sudo $(APT_GET) install -y $(package); fi
 
-aws:
-	gpg --import signatures/aws-cli-team.gpg
-	mkdir -p ./temp
-	curl --no-progress-meter "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip.sig" -o ./temp/awscliv2.zip.sig
-	curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o ./temp/awscliv2.zip
-	gpg --verify ./temp/awscliv2.zip.sig ./temp/awscliv2.zip
-	unzip -od ./temp/ ./temp/awscliv2.zip
-	sudo ./temp/aws/install -u
-	rm -rf ./temp
+
+#=== installations : obsidian ===
+obsidian: flatpak-install-flatpak
+
+flatpak-install-%:
+	flatpak install --user -y $*
+
 
 #=== installations : pip ===
-
 pip: pip3-install
 
 pip2-install:
@@ -307,7 +363,6 @@ endif
 
 
 #=== daemon config : sambad ===
-
 samba:
 ifneq ($(uname_o),Android)
 	@# if regular file (not a symlink; that'd be -L), make a backup first
@@ -321,7 +376,6 @@ endif
 
 
 #=== daemon config : sshd ===
-
 sshd:
 ifneq ($(uname_o),Android)
 	@# if regular file (not a symlink; that'd be -L), make a backup first
