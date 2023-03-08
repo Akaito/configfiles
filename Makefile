@@ -37,7 +37,8 @@ OBSIDIAN_VERSION := 0.14.5
 	iptables \
 	redshift \
 	samba ssh sshd \
-	flatpak flatpak-install-obsidian
+	flatpak flatpak-install-obsidian \
+	system76
 
 help:
 	@echo 'Use `make <tab><tab>` to see what options are available.'
@@ -389,4 +390,9 @@ ifneq ($(uname_o),Android)
 	if [[ -f ~/.ssh/authorized_keys && ! -L /etc/ssh/sshd_config ]] ; then sudo mv ~/.ssh/authorized_keys{,-makebak}; fi
 	sudo ln -sf $(realpath $(mkfile_dir)ssh/authorized_keys) ~/.ssh/authorized_keys
 endif
+
+
+#=== System76-specific things ===
+system76: ~/power-charge-thresholds.sh
+	ln -sf $(realpath $(mkfile_dir)system76/power-charge-thresholds.sh) ~/power-charge-thresholds.sh
 
