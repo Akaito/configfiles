@@ -8,5 +8,6 @@ Session.vim
 temp
 tmux/tmux/plugins/*
 !tmux/tmux/plugins/tpm
+vim/doc
 vim/plugged
 
