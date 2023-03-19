@@ -4,6 +4,7 @@ endif
 augroup filetypedetect
     " setf == setfiletype
     " Web stuff
+    au! BufRead,BufNewFile *.hbs         setfiletype handlebars
     au! BufRead,BufNewFile *.htmlj       setfiletype htmljinja
     "au! BufRead,BufNewFile *.html        setfiletype html
     au! BufRead,BufNewFile *.html        setfiletype htmljinja
