@@ -195,7 +195,7 @@ ifneq ($(uname_o),Android)
 endif
 
 
-vim: install-vim config-vim
+vim: os-install-vim config-vim
 config-vim:
 	mkdir --parents ~/.vimdid
 ifeq ($(uname_o),Android)
@@ -237,16 +237,10 @@ key-ssh: ~/.ssh/id_ed25519 ~/.ssh/id_rsa
 rust:
 	curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
 
-install-vim:
-ifeq ($(strip $(shell which vim)),)
-	os-install-vim
-endif
-
 os-install-%: apt-update
+ifeq ($(strip $(shell which $*)),)
 	sudo $(APT_GET) install -y $*
-
-os-install-vim: apt-update
-	sudo $(APT_GET) install -y vim
+endif
 
 
 #=== installations : apt ===
