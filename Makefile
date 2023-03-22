@@ -245,6 +245,9 @@ endif
 os-install-%: apt-update
 	sudo $(APT_GET) install -y $*
 
+os-install-vim: apt-update
+	sudo $(APT_GET) install -y vim
+
 
 #=== installations : apt ===
 
