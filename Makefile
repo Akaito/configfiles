@@ -1,5 +1,6 @@
 SHELL = /bin/bash
-APT_GET = apt-get --no-allow-insecure-repositories --error-on=any --show-progress
+#APT_GET = apt-get --no-allow-insecure-repositories --error-on=any --show-progress
+APT_GET = apt-get --no-allow-insecure-repositories --error-on=any
 
 #####
 #=== variables ===
