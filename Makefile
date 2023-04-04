@@ -39,7 +39,7 @@ OBSIDIAN_VERSION := 0.14.5
 	redshift \
 	samba ssh sshd \
 	flatpak flatpak-install-obsidian \
-	system76
+	gnome system76
 
 help:
 	@echo 'Use `make <tab><tab>` to see what options are available.'
@@ -388,6 +388,11 @@ ifneq ($(uname_o),Android)
 	if [[ -f ~/.ssh/authorized_keys && ! -L /etc/ssh/sshd_config ]] ; then sudo mv ~/.ssh/authorized_keys{,-makebak}; fi
 	sudo ln -sf $(realpath $(mkfile_dir)ssh/authorized_keys) ~/.ssh/authorized_keys
 endif
+
+
+#=== Linux desktop environment things ===
+gnome:
+	cat $(realpath $(mkfile_dir)/linux-de/dconf.conf) | dconf load
 
 
 #=== System76-specific things ===
