@@ -155,10 +155,6 @@ redshift: apt-install-redshift ~/.config/redshift.conf
 	@ln -sf $(realpath $(mkfile_dir)ssh/config) $@
 
 
-rust:
-	curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
-
-
 ssh:
 	@# if regular file (not a symlink; that'd be -L), make a backup first
 	if [[ -f ~/.ssh/config && ! -L ~/.ssh/config ]] ; then mv ~/.ssh/config{,-makebak} ; fi
