@@ -37,7 +37,7 @@ OBSIDIAN_VERSION := 0.14.5
 	pip pip2-install pip3-install \
 	iptables \
 	redshift \
-	samba ssh sshd \
+	samba ssh sshd sshd2fa \
 	flatpak flatpak-install-obsidian \
 	gnome system76
 
@@ -373,16 +373,33 @@ endif
 
 
 #=== daemon config : sshd ===
+sshdmfa:
+ifneq ($(uname_o),Android)
+	@# For some reason ntp has dependencies on a bunch of pop-os desktop packages?
+	@#sudo apt-get install libpam-google-authenticator ntp
+	sudo apt-get install libpam-google-authenticator
+	@echo "Add this line to the top of the file we're about to edit:"
+	@echo "auth [success=done new_authtok_reqd=done default=die] pam_google_authenticator.so nullok"
+	@read -p "Press Enter once you've copied the above line to add it to the top of the file we're about to edit..." < /dev/tty
+	sudo vim /etc/pam.d/sshd
+	@echo "If you're not on the user which will be used for login, break out of this next command."
+	google-authenticator -l "chris@$(shell hostname)"
+	sudo systemctl restart ssh
+endif
+
 sshd:
 ifneq ($(uname_o),Android)
+	sudo apt-get install openssh-server
 	@# if regular file (not a symlink; that'd be -L), make a backup first
 	if [[ -f /etc/ssh/sshd_config && ! -L /etc/ssh/sshd_config ]] ; then sudo mv /etc/ssh/sshd_config{,-makebak}; fi
 	sudo ln -sf $(realpath $(mkfile_dir)ssh/sshd_config) /etc/ssh/sshd_config
 	if [[ -f /etc/pam.d/sshd && ! -L /etc/pam.d/sshd ]] ; then sudo mv /etc/pam.d/sshd{,-makebak}; fi
 	sudo ln -sf $(realpath $(mkfile_dir)ssh/pam.d/sshd) /etc/pam.d/sshd
 	@# per-user
-	if [[ -f ~/.ssh/authorized_keys && ! -L /etc/ssh/sshd_config ]] ; then sudo mv ~/.ssh/authorized_keys{,-makebak}; fi
+	if [[ -f ~/.ssh/authorized_keys && ! -L ~/.ssh/authorized_keys ]] ; then sudo mv ~/.ssh/authorized_keys{,-makebak}; fi
 	sudo ln -sf $(realpath $(mkfile_dir)ssh/authorized_keys) ~/.ssh/authorized_keys
+	sudo systemctl restart ssh
+	@echo "!! Don't forget to make sshdmfa !!"
 endif
 
 
