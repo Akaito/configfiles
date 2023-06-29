@@ -28,3 +28,11 @@ Host bell.codesaru.com
     ForwardX11 no
     IdentityFile ~/.ssh/id_rsa
 
+Host hass
+    HostName homeassistant.local
+    User hassio
+
+Host linpop.local
+    ForwardAgent yes
+    ForwardX11 yes
+
