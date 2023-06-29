@@ -181,6 +181,7 @@ filetype plugin indent on
 set backspace=indent,start,eol
 
 set number
+" (No longer setting 'rnu')
 "set relativenumber
 "set cursorline  # too expensive in some cases
 
