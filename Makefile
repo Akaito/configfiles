@@ -247,10 +247,10 @@ apt: apt-install beyondcompare apt-syncthing
 apt-install: apt-tier2 beyondcompare
 
 apt-update:
-	@#last_update := $(shell stat -c %Y /var/cache/apt-pkgcache.bin)
-	@#now := $(shell date +%s)
-	@#if [ $(shell $((now - last_update))) ]
-	@sudo $(APT_GET) update
+	@#last_update := $$(shell stat -c %Y /var/cache/apt-pkgcache.bin)
+	@#now := $$(shell date +%s)
+	@#if [ $$(shell $((now - last_update))) ]
+	sudo $(APT_GET) update
 
 apt-tier0: apt-update
 	sudo $(APT_GET) install -y \
