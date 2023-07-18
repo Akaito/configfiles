@@ -216,6 +216,8 @@ iptables:
 	# Append(? or copy/ln?) iptables/rules.v4 over to /etc/iptables/rules.v4
 	# Look into rules.v6
 	# service netfilter-persistent reload
+	# iptables-restore < ./iptables/some-rule-file
+	# There's also the "-T" (table) switch to restore only a named table.
 
 
 #=== keys ===
