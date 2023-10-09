@@ -235,6 +235,7 @@ key-ssh: ~/.ssh/id_ed25519 ~/.ssh/id_rsa
 
 rust:
 	curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
+	rustup component add rust-analyzer
 
 os-install-%: apt-update
 ifeq ($(strip $(shell which $*)),)
@@ -268,7 +269,8 @@ apt-tier1: apt-tier0
 
 apt-tier2: apt-tier1
 	sudo $(APT_GET) install -y \
-		manpages-dev manpages-posix-dev
+		manpages-dev manpages-posix-dev \
+		fzf
 ifneq ($(uname_o),Android) # non-smartphone stuff
 	sudo $(APT_GET) install -y \
 		docker \

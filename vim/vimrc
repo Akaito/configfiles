@@ -12,8 +12,10 @@
 "
 call plug#begin('~/.vim/plugged')
 
-" :ALEDetail to get the full pane.
-Plug 'https://github.com/w0rp/ale'
+" ALE - Use :ALEDetail to get the full pane.
+Plug 'dense-analysis/ale'
+" Rust syntax highlighting
+Plug 'rust-lang/rust.vim'
 
 " Color schemes aplenty.
 Plug 'https://github.com/chriskempson/base16-vim'
@@ -35,7 +37,7 @@ Plug 'https://github.com/machakann/vim-highlightedyank'
 Plug 'https://github.com/itchyny/lightline.vim'
 Plug 'https://github.com/mike-hearn/base16-vim-lightline'
 
-" :NERDTreeToggle
+" :NERDTreeToggle (also space-t)
 Plug 'https://github.com/preservim/nerdtree'
 
 " When editing a symlink in vim, follow it to get its true path.
@@ -100,26 +102,37 @@ let g:lightline.component = {
         \ }
 "let g:lightline.tabline = { 'left': [ ['tabs'] ], 'right': [ ['close'] ] }
 
+" Rust development
+" As-you-type autocomplete
+set completeopt=menu,menuone,preview,noselect,noinsert
+let g:ale_completion_enabled = 1
+" Use ALE's go-to-definition
+nnoremap gd :ALEGoToDefinition<CR>
+" Adjust auto-formatting of code
+let g:ale_fixers = { 'rust': ['rustfmt', 'trim_whitespace'] }
+" Use Rust analyzer
+let g:ale_linters = { 'rust': ['analyzer'] }
+
 
 " Follow-up nvim-specific plugin setup.
 
-" LanguageClient-neovim
+if has('nvim')
+" LanguageClient-neovim (note we aren't even installing this anymore)
 " Required for operations modifying multiple buffers like rename.
-set hidden
-let g:LanguageClient_serverCommands = {
-    \ 'rust': ['~/.cargo/bin/rustup', 'run', 'stable', 'rls'],
-    \ 'javascript': ['/usr/local/bin/javascript-typescript-stdio'],
-    \ 'javascript.jsx': ['tcp://127.0.0.1:2089'],
-    \ 'python': ['/usr/local/bin/pyls'],
-    \ 'ruby': ['~/.rbenv/shims/solargraph', 'stdio'],
-    \ }
+" set hidden
+" let g:LanguageClient_serverCommands = {
+"     \ 'rust': ['~/.cargo/bin/rustup', 'run', 'stable', 'rls'],
+"     \ 'javascript': ['/usr/local/bin/javascript-typescript-stdio'],
+"     \ 'javascript.jsx': ['tcp://127.0.0.1:2089'],
+"     \ 'python': ['/usr/local/bin/pyls'],
+"     \ 'ruby': ['~/.rbenv/shims/solargraph', 'stdio'],
+"     \ }
 "nnoremap <F5> :call LanguageClient_contextMenu()<CR>
 " Or map each action separately
-nnoremap <silent> K    :call LanguageClient#textDocument_hover()<CR>
-nnoremap <silent> gd   :call LanguageClient#textDocument_definition()<CR>
-nnoremap <silent> <F2> :call LanguageClient#textDocument_rename()<CR>
+" nnoremap <silent> K    :call LanguageClient#textDocument_hover()<CR>
+" nnoremap <silent> gd   :call LanguageClient#textDocument_definition()<CR>
+" nnoremap <silent> <F2> :call LanguageClient#textDocument_rename()<CR>
 
-if has('nvim')
 " ncm2
 " enable ncm2 for all buffers
 autocmd BufEnter * call ncm2#enable_for_buffer()
@@ -181,8 +194,7 @@ filetype plugin indent on
 set backspace=indent,start,eol
 
 set number
-" (No longer setting 'rnu')
-"set relativenumber
+set relativenumber " rnu
 "set cursorline  # too expensive in some cases
 
 " Always show the status-line.  If using lightline/airline/powerline, this is good.
@@ -192,6 +204,8 @@ set laststatus=2
 set noshowmode
 
 " jk as escape key
+" So we can 'just-kidding' out of editing mode on keyboards without a handy
+" escape key.
 inoremap jk <esc>
 
 " Visual autocomplete for command menu
@@ -335,26 +349,6 @@ au BufReadPost *
 " Force cursor back to start on Windows git commit messages.
 " Not sure why this can't be added to the above 'if'?
 autocmd FileType gitcommit call setpos('.', [0, 1, 1, 0])
-
-
-"""
-""" Syntastic plugin
-""" bundle/syntastic
-""" :help syntastic
-"""
-
-"set statusline+=%#warningmsg#
-"set statusline+=%{SyntasticStatuslineFlag()}
-"set statusline+=%*
-
-"let g:syntastic_always_populate_loc_list = 1
-"let g:syntastic_auto_loc_list            = 1
-"let g:syntastic_check_on_open            = 1
-"let g:syntastic_check_on_wq              = 0
-
-" jump to next/previous errors (may not be Syntastic-specific?)
-"nnoremap <leader>n :lnext<CR>
-"nnoremap <leader>p :lprevious<CR>
 
 
 """
