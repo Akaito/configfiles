@@ -1,6 +1,7 @@
 SHELL = /bin/bash
 #APT_GET = apt-get --no-allow-insecure-repositories --error-on=any --show-progress
 APT_GET = apt-get
+SYS_PKG_INSTALL = sudo apt-get --show-progress install
 
 #####
 #=== variables ===
@@ -302,19 +303,23 @@ aws: apt-gpg
 
 
 #=== installations : beyondcompare ===
+# https://www.scootersoftware.com/kb/linux_install
 beyondcompare: apt-install-beyondcompare
 apt-install-beyondcompare:
 ifneq ($(uname_o),Android) # non-Android {
 ifneq ($(DISPLAY),)        # 	graphical-only {
 ifeq ($(uname_m),x86_64)   # 		64-bit
+ifeq ($(shell which bcompare),) # not already installed
 	mkdir -p ./temp
-	curl -L https://www.scootersoftware.com/bcompare-4.4.1.26165_amd64.deb -o ./temp/bc4.deb
-	sudo $(APT_GET) install \
-		gdebi-core
-	sudo gdebi ./temp/bc4.deb
+ifeq ("$(wildcard ./temp/bc4.deb)","") # only download if we don't have it yet
+	curl -L https://www.scootersoftware.com/bcompare-4.4.7.28397_amd64.deb -o ./temp/bc4.deb
+endif
+	@echo 'e005934a86295611a6041c5cc075dd83508677fd38fbcc8bf69bbe807aec8fa5  ./temp/bc4.deb' | sha256sum --status -c -
+	$(SYS_PKG_INSTALL) ./temp/bc4.deb
 	rm -rf ./temp
+endif                           # already-installed check
 else                       # 		32-bit
-	@echo WARN: BeyondCompare install not supported on this architecture.
+	@echo WARN: BeyondCompare install not supported on this system/architecture.
 endif                      # 		} end 32-or-64-bit
 endif                      # 	} end graphical-only
 endif                      # } end non-Android
