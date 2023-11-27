@@ -1,0 +1,11 @@
+[Unit]
+Description=Set the charge threshold at startup (on System76/Pop_OS!).
+After=default.target
+
+[Service]
+Type=simple
+ExecStart=system76-power charge-thresholds 86 90
+
+[Install]
+WantedBy=default.target
+

@@ -40,7 +40,7 @@ OBSIDIAN_VERSION := 0.14.5
 	redshift \
 	samba ssh sshd sshd2fa \
 	flatpak flatpak-install-obsidian \
-	gnome system76
+	gnome system76-charge-helper system76-charge-systemd
 
 help:
 	@echo 'Use `make <tab><tab>` to see what options are available.'
@@ -418,6 +418,10 @@ gnome:
 
 
 #=== System76-specific things ===
-system76: ~/power-charge-thresholds.sh
+system76-charge-helper: ~/power-charge-thresholds.sh
 	ln -sf $(realpath $(mkfile_dir)system76/power-charge-thresholds.sh) ~/power-charge-thresholds.sh
+
+system76-charge-systemd: /etc/systemd/system/default.target.wants/charge-thresholds.service
+	sudo cp $(realpath $(mkfile_dir)system76/charge-thresholds.service) /etc/systemd/system/charge-thresholds.service
+	sudo systemctl enable charge-thresholds.service
 
