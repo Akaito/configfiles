@@ -28,6 +28,11 @@ Host bell.codesaru.com
     ForwardX11 no
     IdentityFile ~/.ssh/id_rsa
 
+Host redpi.home.codesaru.com
+    Port 2022
+    ForwardAgent yes
+    ForwardX11 no
+
 Host hass
     HostName homeassistant.local
     User hassio
