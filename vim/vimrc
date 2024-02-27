@@ -67,6 +67,9 @@ Plug 'https://github.com/cespare/vim-toml', {
     \ 'branch': 'main',
     \ }
 
+" Nix-shell and NixOS .nix configuration file ftplugin.
+Plug 'LnL7/vim-nix'
+
 " NeoVim-specific
 "if !has("win32")
 "" NeoVim requirement for Rust niceties
