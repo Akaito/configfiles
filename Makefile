@@ -29,7 +29,7 @@ OBSIDIAN_VERSION := 0.14.5
 .PHONY: help \
 	all \
 	configs \
-	alacritty bash git nvim obsidian termux tmux vim \
+	alacritty bash git nvim obsidian termux tmux vim wezterm \
 	keys \
 	apt apt-install apt-tier0 apt-tier1 apt-tier2 \
 	beyondcompare apt-gpg apt-syncthing apt-tmux \
@@ -81,6 +81,11 @@ ifneq ($(uname_o),Android)
 	mkdir --parents ~/.config/alacritty
 	ln -sf $(realpath $(mkfile_dir)/alacritty/alacritty.yml) ~/.config/alacritty/alacritty.yml
 endif  # neq Android
+
+wezterm:
+ifneq (&(uname_o),Android)
+	ln -sf $(realpath $(mkfile_dir)/wezterm/wezterm.lua) ~/.wezterm.lua
+endif # neq Android
 
 bash:
 ifeq ($(uname_o),Android)
