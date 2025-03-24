@@ -161,7 +161,10 @@ redshift: apt-install-redshift ~/.config/redshift.conf
 	@ln -sf $(realpath $(mkfile_dir)ssh/config) $@
 
 
-ssh:
+~/.ssh:
+	@mkdir -p ~/.ssh
+
+ssh: ~/.ssh
 	@# if regular file (not a symlink; that'd be -L), make a backup first
 	if [[ -f ~/.ssh/config && ! -L ~/.ssh/config ]] ; then mv ~/.ssh/config{,-makebak} ; fi
 	@# Can't symlink this one since the link's permissions will upset SSH.
