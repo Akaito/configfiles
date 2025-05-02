@@ -38,7 +38,7 @@ OBSIDIAN_VERSION := 0.14.5
 	pip pip2-install pip3-install \
 	iptables \
 	redshift \
-	samba ssh sshd sshd2fa \
+	samba ssh sshd ssh-authorized-keys sshd2fa \
 	flatpak flatpak-install-obsidian \
 	gnome system76-charge-helper system76-charge-systemd
 
@@ -404,7 +404,17 @@ ifneq ($(uname_o),Android)
 	sudo systemctl restart ssh
 endif
 
-sshd:
+ssh-authorized-keys:
+ifneq ($(uname_o),Android)
+	@# per-user
+	mkdir --parents ~/.ssh
+	if [[ -f ~/.ssh/authorized_keys && ! -L ~/.ssh/authorized_keys ]] ; then sudo mv ~/.ssh/authorized_keys{,-makebak}; fi
+	sudo ln -sf $(realpath $(mkfile_dir)ssh/authorized_keys) ~/.ssh/authorized_keys
+	sudo systemctl restart ssh
+	@echo "!! Don't forget to make sshdmfa !!"
+endif
+
+sshd: ssh-authorized-keys
 ifneq ($(uname_o),Android)
 	sudo apt-get install openssh-server
 	@# if regular file (not a symlink; that'd be -L), make a backup first
@@ -412,11 +422,6 @@ ifneq ($(uname_o),Android)
 	sudo ln -sf $(realpath $(mkfile_dir)ssh/sshd_config) /etc/ssh/sshd_config
 	if [[ -f /etc/pam.d/sshd && ! -L /etc/pam.d/sshd ]] ; then sudo mv /etc/pam.d/sshd{,-makebak}; fi
 	sudo ln -sf $(realpath $(mkfile_dir)ssh/pam.d/sshd) /etc/pam.d/sshd
-	@# per-user
-	if [[ -f ~/.ssh/authorized_keys && ! -L ~/.ssh/authorized_keys ]] ; then sudo mv ~/.ssh/authorized_keys{,-makebak}; fi
-	sudo ln -sf $(realpath $(mkfile_dir)ssh/authorized_keys) ~/.ssh/authorized_keys
-	sudo systemctl restart ssh
-	@echo "!! Don't forget to make sshdmfa !!"
 endif
 
 

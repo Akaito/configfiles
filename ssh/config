@@ -41,3 +41,9 @@ Host linpop.local
     ForwardAgent yes
     ForwardX11 yes
 
+Host deck
+    HostName deck.home.arpa
+    User deck
+    ForwardAgent no
+    ForwardX11 no
+

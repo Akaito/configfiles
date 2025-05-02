@@ -45,3 +45,7 @@
 #    cmd = /mnt/c/Program\\ Files/Beyond\\ Compare\\ 4/BComp.exe /solo "$(wslpath -aw $LOCAL)" "$(wslpath -aw $REMOTE)" "$(wslpath -aw $BASE)" "$(wslpath -aw $MERGED)" /lefttitle=LOCAL /righttitle=REMOTE /centertitle=BASE
 #    trustExitCode = true
 
+[http]
+	lowSpeedLimit = 1000
+	lowSpeedTime = 60
+	postBuffer = 524288000
