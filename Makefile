@@ -217,6 +217,15 @@ else
 endif
 
 
+#wezterm: os-install-wezterm config-wezterm
+config-wezterm:
+ifneq ($(uname_o),Android)
+	rm -rf ~/.config/wezterm
+	mkdir --parents ~/.config/
+	ln -sf $(realpath $(mkfile_dir)wezterm) ~/.config/wezterm
+endif
+
+
 #####
 #=== security - networking ===
 iptables:
@@ -279,7 +288,7 @@ apt-tier1: apt-tier0
 apt-tier2: apt-tier1
 	sudo $(APT_GET) install -y \
 		manpages-dev manpages-posix-dev \
-		fzf
+		btop fzf tldr
 ifneq ($(uname_o),Android) # non-smartphone stuff
 	sudo $(APT_GET) install -y \
 		docker \
