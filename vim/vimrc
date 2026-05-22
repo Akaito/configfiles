@@ -200,7 +200,7 @@ filetype plugin indent on
 set backspace=indent,start,eol
 
 set number
-set relativenumber " rnu
+"set relativenumber " rnu
 "set cursorline  # too expensive in some cases
 
 " Always show the status-line.  If using lightline/airline/powerline, this is good.
